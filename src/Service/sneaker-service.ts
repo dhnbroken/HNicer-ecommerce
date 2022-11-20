@@ -8,3 +8,12 @@ export const getAllSneaker = async () => {
     throw Error(String(error));
   }
 };
+
+export const getClient = async () => {
+  try {
+    const res = await axiosInstance.get('client');
+    return res.data;
+  } catch (error) {
+    throw Error(String(error));
+  }
+};

@@ -2,6 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Slider = () => {
+  const slider1 = 'https://www.nicepng.com/png/full/53-538072_nike-shoe-png-nike-shoes-png-shoes-nike.png';
+  const slider2 = 'https://www.nicepng.com/png/full/253-2536561_adidas-pro-model-animal-adidas-pro-model-animal.png';
+  const slider3 = 'https://www.nicepng.com/png/full/253-2538656_puma-1948-mid-gtx-jr-black-toreador-white.png';
+
   return (
     <section className="slider_section ">
       <div id="customCarousel1" className="carousel slide" data-ride="carousel">
@@ -26,7 +30,7 @@ const Slider = () => {
                 </div>
                 <div className="col-md-6">
                   <div className="img-box">
-                    <img src="src/assets/img/slider1.png" alt="" />
+                    <img src={slider1} alt="slider 1" />
                   </div>
                 </div>
               </div>
@@ -52,7 +56,7 @@ const Slider = () => {
                 </div>
                 <div className="col-md-6">
                   <div className="img-box">
-                    <img src="src/assets/img/slider2.png" alt="" />
+                    <img src={slider2} alt="" />
                   </div>
                 </div>
               </div>
@@ -78,7 +82,7 @@ const Slider = () => {
                 </div>
                 <div className="col-md-6">
                   <div className="img-box">
-                    <img src="src/assets/img/slider3.png" alt="" />
+                    <img src={slider3} alt="" />
                   </div>
                 </div>
               </div>

@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { GlobalContextProvider } from 'src/Context/GlobalContext';
 import { Link } from 'react-router-dom';
+import ItemList from '../Item/ItemList';
 
-const Shop = () => {
+const Shop: React.FC = () => {
+  const { sneakers, isViewAll, setIsViewAll } = useContext(GlobalContextProvider);
+  const handleViewAll = () => {
+    setIsViewAll(true);
+  };
+
   return (
     <section className="shop_section layout_padding">
       <div className="container">
@@ -11,87 +18,27 @@ const Shop = () => {
           </h2>
         </div>
         <div className="row">
-          <div className="col-md-6 ">
-            <div className="box">
-              <a href="">
-                <div className="img-box">
-                  <img src="images/w1.png" alt=""/>
-                </div>
-                <div className="detail-box">
-                  <h6>
-                  Smartwatch
-                  </h6>
-                  <h6>
-                  Price:
-                    <span>
-                    $300
-                    </span>
-                  </h6>
-                </div>
-                <div className="new">
-                  <span>
-                  Featured
-                  </span>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className="col-sm-6 col-xl-3">
-            <div className="box">
-              <a href="">
-                <div className="img-box">
-                  <img src="images/w2.png" alt=""/>
-                </div>
-                <div className="detail-box">
-                  <h6>
-                  Smartwatch
-                  </h6>
-                  <h6>
-                  Price:
-                    <span>
-                    $125
-                    </span>
-                  </h6>
-                </div>
-                <div className="new">
-                  <span>
-                  New
-                  </span>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className="col-sm-6 col-xl-3">
-            <div className="box">
-              <a href="">
-                <div className="img-box">
-                  <img src="images/w3.png" alt=""/>
-                </div>
-                <div className="detail-box">
-                  <h6>
-                  Smartwatch
-                  </h6>
-                  <h6>
-                  Price:
-                    <span>
-                    $110
-                    </span>
-                  </h6>
-                </div>
-                <div className="new">
-                  <span>
-                  New
-                  </span>
-                </div>
-              </a>
-            </div>
-          </div>
+          {sneakers.length && !isViewAll
+            ? sneakers.splice(0, 4).map((sneaker, index) => (
+              <div className="col-md-6 col-xl-3" key={index}>
+                <ItemList sneaker={sneaker}/>
+              </div>
+            ))
+            : sneakers.map((sneaker, index) => (
+              <div className="col-md-6 col-xl-3" key={index}>
+                <ItemList sneaker={sneaker}/>
+              </div>)
+            )}
         </div>
+        {!isViewAll &&
         <div className="btn-box">
-          <Link to="/sneaker">
-          View All
-          </Link>
+          <button onClick={handleViewAll}>
+            <Link to="/sneaker">
+            View All
+            </Link>
+          </button>
         </div>
+        }
       </div>
     </section>
   );

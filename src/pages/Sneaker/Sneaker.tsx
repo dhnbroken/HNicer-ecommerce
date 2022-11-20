@@ -1,9 +1,19 @@
-import React from 'react';
-import 'src/assets/css/styles.scss';
+import React, { useContext, useEffect } from 'react';
+import { GlobalContextProvider } from 'src/Context/GlobalContext';
+import Shop from 'src/components/Shop/Shop';
 
 const Sneaker = () => {
+  const { getSneakers, setIsViewAll } = useContext(GlobalContextProvider);
+
+  useEffect(() => {
+    getSneakers();
+    setIsViewAll(true);
+  }, []);
+
   return (
-    <div>Sneaker</div>
+    <React.Fragment>
+      <Shop />
+    </React.Fragment>
   );
 };
 

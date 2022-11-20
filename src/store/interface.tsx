@@ -6,7 +6,13 @@ export interface ISneaker {
   price: number
   image: string
   description: string
-  quantity?: number
+}
+
+export interface IClient {
+  id: number
+  name: string
+  avatarPath: string
+  comment: string
 }
 
 export type TaskAction =

@@ -1,35 +1,33 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { TaskInfoAPI, TaskState, PropsProvider } from 'src/store/interface';
+import { TaskInfoAPI, TaskState, PropsProvider, ISneaker, IClient } from 'src/store/interface';
 import React, { createContext, useReducer, useState } from 'react';
 import taskReducer from 'src/store/reducer';
 import { intialState } from 'src/store/constants';
 import * as actions from 'src/store/actions';
 import { TodoContext } from './TodoContext';
-import moment from 'moment';
+import { getAllSneaker, getClient } from 'src/Service/sneaker-service';
 
 export interface GlobalContext {
   state: TaskState
-  taskInput: string
-  setTaskInput: (input: string) => void
-  selectDate: string
-  setSelectDate: (input: string) => void
-  inputDate: string
-  setInputDate: (input: string) => void
   getTodo: (jobs: TaskInfoAPI[]) => void
   setTodo: (payload: TaskInfoAPI) => void
   addTodo: (payload: TaskInfoAPI) => void
   deleteTodo: (payload: number) => void
   updateTodo: (payload: TaskInfoAPI) => void
   changeStatusTodo: (payload: TaskInfoAPI) => void
+  sneakers: ISneaker[]
+  getSneakers: () => void
+  clients: IClient[]
+  getClients: () => void
+  isViewAll: boolean
+  setIsViewAll: (isViewAll: boolean) => void
 }
 
 export const GlobalContextProvider = createContext<GlobalContext>(TodoContext);
 export const GlobalStoreContext = ({ children }: PropsProvider) => {
-  const todayDate = moment().format('yyyy-MM-DTHH:mm');
-
-  const [taskInput, setTaskInput] = useState('');
-  const [inputDate, setInputDate] = useState(todayDate);
-  const [selectDate, setSelectDate] = useState(todayDate);
+  const [sneakers, setSneakers] = useState<ISneaker[]>([]);
+  const [clients, setClients] = useState<IClient[]>([]);
+  const [isViewAll, setIsViewAll] = useState(false);
 
   const [state, dispatch] = useReducer(taskReducer, intialState);
   const getTodo = (jobs: TaskInfoAPI[]) => dispatch(actions.getTodoApi(jobs));
@@ -39,19 +37,34 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
   const updateTodo = (payload: TaskInfoAPI) => dispatch(actions.updateTodoInput(payload));
   const changeStatusTodo = (payload: TaskInfoAPI) => dispatch(actions.changeStatus(payload));
 
+  const getSneakers = async () => {
+    try {
+      const res = await getAllSneaker();
+      setSneakers(res);
+    } catch (err) {}
+  };
+
+  const getClients = async () => {
+    try {
+      const res = await getClient();
+      setClients(res);
+    } catch (err) {}
+  };
+
   const valueContext = {
     state,
-    taskInput,
-    setTaskInput,
-    selectDate,
-    setSelectDate,
-    inputDate,
-    setInputDate,
+    sneakers,
+    clients,
+    isViewAll,
+    setIsViewAll,
+    setSneakers,
     getTodo,
     setTodo,
     addTodo,
     deleteTodo,
     updateTodo,
+    getSneakers,
+    getClients,
     changeStatusTodo
   };
   return <GlobalContextProvider.Provider value={valueContext}>

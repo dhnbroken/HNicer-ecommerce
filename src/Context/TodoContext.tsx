@@ -1,12 +1,6 @@
 import { Status } from 'src/store/enum';
 
 export const TodoContext = {
-  taskInput: '',
-  setTaskInput: () => {},
-  selectDate: '',
-  setSelectDate: () => {},
-  inputDate: '',
-  setInputDate: () => {},
   state: {
     job: {
       id: 0,
@@ -20,6 +14,12 @@ export const TodoContext = {
     editId: 0,
     editDeadline: ''
   },
+  sneakers: [],
+  isViewAll: false,
+  clients: [],
+  getClients: () => {},
+  setIsViewAll: () => {},
+  getSneakers: () => {},
   getTodo: () => {},
   setTodo: () => {},
   addTodo: () => {},
