@@ -6,7 +6,7 @@ import Login from 'src/pages/Login/Login';
 import Home from 'src/pages/Home/Home';
 
 const getAccessToken = () => {
-  return localStorage.getItem('token');
+  return sessionStorage.getItem('token');
 };
 const MainRoutes = () => {
   return (

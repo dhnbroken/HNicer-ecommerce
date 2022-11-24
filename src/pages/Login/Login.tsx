@@ -46,10 +46,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
+    if (sessionStorage.getItem('token')) {
       navigate('/home');
     }
-  }, [localStorage.getItem('token')]);
+  }, [sessionStorage.getItem('token')]);
   return (
     <React.Fragment>
       <section className="mb-5">

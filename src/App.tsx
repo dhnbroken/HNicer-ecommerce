@@ -10,10 +10,10 @@ function App(): JSX.Element {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem('token')) {
+    if (!sessionStorage.getItem('token')) {
       navigate('/login');
     }
-  }, [localStorage.getItem('user')]);
+  }, [sessionStorage.getItem('user')]);
   return (
     <React.Fragment>
       <GlobalStoreContext>
