@@ -1,35 +1,42 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Slider from 'src/components/Header/Slider';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import 'src/assets/css/styles.scss';
 import Social from 'src/components/Header/Social';
 import Shop from 'src/components/Shop/Shop';
-import { ISneaker } from 'src/store/interface';
-import { getAllSneaker } from 'src/Service/sneaker-service';
+import { GlobalContextProvider } from 'src/Context/GlobalContext';
+import About from '../About/About';
+import Feature from 'src/components/Feature/Feature';
+import Contact from '../Contact/Contact';
+import Client from 'src/components/Client/Client';
+import Loading from 'src/components/Loading/Loading';
 
 const Home = () => {
-  const [sneakers, setSneakers] = useState<ISneaker[]>([]);
-
-  const getSneakers = async () => {
-    try {
-      const res = await getAllSneaker();
-      setSneakers(res);
-    } catch (err) {}
-  };
+  const { getSneakers, getClients, setIsViewAll, loading, setLoading } = useContext(GlobalContextProvider);
 
   useEffect(() => {
     getSneakers();
+    getClients();
+    setIsViewAll(false);
+    setLoading(false);
   }, []);
-
-  console.log(sneakers);
 
   return (
     <React.Fragment>
-      <div className="hero_area">
-        <Social />
-        <Slider />
-      </div>
-      <Shop />
+      {loading ? (
+        <React.Fragment>
+          <div className="hero_area">
+            <Social />
+            <Slider />
+          </div>
+          <Shop />
+          <About />
+          <Feature />
+          <Contact />
+          <Client />
+        </React.Fragment>
+      ) : (
+        <Loading />
+      )}
     </React.Fragment>
   );
 };
