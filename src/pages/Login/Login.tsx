@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { faFacebook, faLinkedin, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
@@ -7,15 +7,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { login } from 'src/Service/auth-service';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
+import './Login.scss';
 
 interface IFormLogin {
   emailAddress: string;
   password: string;
-}
-
-interface IPassword {
-  password: string;
-  showPassword: boolean;
 }
 
 const schema = yup
@@ -27,6 +25,7 @@ const schema = yup
 
 const Login = () => {
   const navigate: NavigateFunction = useNavigate();
+  const [hide, setHide] = useState(false);
 
   const {
     handleSubmit,
@@ -94,14 +93,19 @@ const Login = () => {
                 </div>
 
                 <div className="form-outline mb-3">
+                  <FontAwesomeIcon
+                    icon={hide ? faEyeSlash : faEye}
+                    size="lg"
+                    className="icon-btn position-absolute mt-3 ml-490"
+                    onClick={() => setHide(!hide)}
+                  />
                   <input
-                    type="password"
+                    type={hide ? 'text' : 'password'}
                     id="form3Example4"
                     className="form-control form-control-lg"
                     placeholder="Password"
                     {...register('password')}
                   />
-                  {/* <div>{errors.password ? errors.password?.message : ''}</div> */}
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center">
