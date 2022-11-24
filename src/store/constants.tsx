@@ -1,5 +1,5 @@
 import { Status } from './enum';
-import { ISneaker } from './interface';
+import { ISneaker, IUser } from './interface';
 export const intialState = {
   job: {
     id: 0,
@@ -20,4 +20,12 @@ export const initSneaker: ISneaker = {
   description: '',
   price: 0,
   image: ''
+};
+
+export const initUser: IUser = {
+  id: 0,
+  firstName: '',
+  lastName: '',
+  avatar: '',
+  email: ''
 };

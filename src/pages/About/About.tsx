@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const About = () => {
   return (
-    <section className="about_section layout_padding">
+    <section className="about_section layout_padding mb-5">
       <div className="container  ">
         <div className="row">
           <div className="col-md-6 col-lg-5 ">

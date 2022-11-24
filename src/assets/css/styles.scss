@@ -5,10 +5,11 @@ $primary2: #3b4a6b;
 $textCol: #1f1f1f;
 
 // import fonts
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 
 @mixin main-font {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 @mixin hero_btn($col1, $col2, $pad1, $pad2, $bRadius) {
@@ -39,7 +40,7 @@ body {
 }
 
 .layout_padding {
-  padding: 90px 0;
+  padding: 40px 0;
 }
 
 .layout_margin {
@@ -106,7 +107,7 @@ a:focus {
 /*header section*/
 .hero_area {
   position: relative;
-  min-height: 100vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   padding-left: 45px;
@@ -125,7 +126,6 @@ a:focus {
       color: #999;
       margin: 5px 0;
     }
-
   }
 
   .container-fluid {
@@ -140,8 +140,8 @@ a:focus {
     border-radius: 0 0 45px 0;
     padding-left: 0;
   }
-  .header_section{
-    box-shadow: 0 0 3px 0 rgba($color: #000000, $alpha: .25);
+  .header_section {
+    box-shadow: 0 0 3px 0 rgba($color: #000000, $alpha: 0.25);
   }
 }
 
@@ -212,7 +212,7 @@ a:focus {
 
     &::before,
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       height: 100%;
@@ -228,7 +228,7 @@ a:focus {
     }
   }
 
-  &[aria-expanded="true"] {
+  &[aria-expanded='true'] {
     transform: rotate(360deg);
 
     span {
@@ -258,8 +258,7 @@ a:focus {
     }
   }
 
-  &[aria-expanded="false"] {
-
+  &[aria-expanded='false'] {
     .s-1,
     .s-2,
     .s-3 {
@@ -282,7 +281,6 @@ a:focus {
       color: $primary2;
     }
   }
-
 }
 
 /*end header section*/
@@ -326,11 +324,7 @@ a:focus {
       }
 
       .btn1 {
-        @include hero_btn(darken($color: $primary1, $amount: 10),
-          $white,
-          12px,
-          15px,
-          5px);
+        @include hero_btn(darken($color: $primary1, $amount: 10), $white, 12px, 15px, 5px);
       }
     }
   }
@@ -368,8 +362,6 @@ a:focus {
 
 // shop section
 .shop_section {
-
-
   .heading_container {
     margin-bottom: 20px;
   }
@@ -400,7 +392,6 @@ a:focus {
     }
 
     .detail-box {
-
       h6 {
         span {
           color: $primary2;
@@ -440,8 +431,6 @@ a:focus {
 }
 
 // end shop section
-
-
 
 // about section
 .about_section {
@@ -490,8 +479,7 @@ a:focus {
     margin-top: 45px;
     padding: 15px;
     border-radius: 10px;
-    box-shadow: 5px 5px 5px 0 rgba($color: #000000, $alpha: 0.25),
-      -2px -2px 3px 0 rgba($color: #000000, $alpha: 0.05);
+    box-shadow: 5px 5px 5px 0 rgba($color: #000000, $alpha: 0.25), -2px -2px 3px 0 rgba($color: #000000, $alpha: 0.05);
     position: relative;
     overflow: hidden;
     transition: all 0.2s;
@@ -550,9 +538,9 @@ a:focus {
 
 .contact_section {
   position: relative;
-.row{
-  align-items: center;
-}
+  .row {
+    align-items: center;
+  }
   form {
     margin-top: 45px;
   }
@@ -647,7 +635,6 @@ a:focus {
     p {
       margin-top: 15px;
     }
-
   }
 
   .owl-carousel {
@@ -667,7 +654,6 @@ a:focus {
         bottom: 0px;
         font-size: 24px;
         margin: 0 5px;
-
       }
     }
   }
@@ -692,7 +678,6 @@ a:focus {
   }
 
   .footer_contact {
-
     .contact_link_box {
       display: flex;
       flex-direction: column;

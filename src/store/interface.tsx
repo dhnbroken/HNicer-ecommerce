@@ -15,6 +15,26 @@ export interface IClient {
   comment: string
 }
 
+export interface IUser {
+  id: number
+  firstName: string
+  lastName: string
+  avatar: string
+  email: string
+  phone?: string
+  street?: string
+  city?: string
+  state?: string
+  zipCode?: string
+  description?: string
+  webSiteUrl?: string
+}
+
+export type TLoginData = {
+  emailAddress: string
+  password: string
+}
+
 export type TaskAction =
 | Get
 | Set

@@ -8,27 +8,35 @@ import About from '../About/About';
 import Feature from 'src/components/Feature/Feature';
 import Contact from '../Contact/Contact';
 import Client from 'src/components/Client/Client';
+import Loading from 'src/components/Loading/Loading';
 
 const Home = () => {
-  const { getSneakers, getClients, setIsViewAll } = useContext(GlobalContextProvider);
+  const { getSneakers, getClients, setIsViewAll, loading, setLoading } = useContext(GlobalContextProvider);
 
   useEffect(() => {
     getSneakers();
     getClients();
     setIsViewAll(false);
+    setLoading(false);
   }, []);
 
   return (
     <React.Fragment>
-      <div className="hero_area">
-        <Social />
-        <Slider />
-      </div>
-      <Shop />
-      <About />
-      <Feature />
-      <Contact />
-      <Client />
+      {loading ? (
+        <React.Fragment>
+          <div className="hero_area">
+            <Social />
+            <Slider />
+          </div>
+          <Shop />
+          <About />
+          <Feature />
+          <Contact />
+          <Client />
+        </React.Fragment>
+      ) : (
+        <Loading />
+      )}
     </React.Fragment>
   );
 };
