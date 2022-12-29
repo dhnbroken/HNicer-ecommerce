@@ -1,7 +1,5 @@
 import UserModel from '../models/userModel.js';
 
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 // Get a User
 export const getUser = async (req, res) => {
   const id = req.params.id;
@@ -39,7 +37,6 @@ export const getAllUsers = async (req, res) => {
 export const updateUser = async (req, res) => {
   const id = req.params.id;
   // console.log("Data Received", req.body)
-  const { _id, currentUserAdmin, password } = req.body;
 
   // if (id === _id) {
   try {
@@ -50,7 +47,7 @@ export const updateUser = async (req, res) => {
     // }
     // have to change this
     const user = await UserModel.findByIdAndUpdate(id, req.body, {
-      new: true,
+      new: true
     });
     // const token = jwt.sign({ username: user.username, id: user._id }, process.env.JWTKEY, { expiresIn: '1h' });
     // console.log({ user, token });
@@ -70,7 +67,7 @@ export const deleteUser = async (req, res) => {
 
   const { currentUserId, currentUserAdmin } = req.body;
 
-  if (currentUserId == id || currentUserAdmin) {
+  if (currentUserId === id || currentUserAdmin) {
     try {
       await UserModel.findByIdAndDelete(id);
       res.status(200).json('User Deleted Successfully!');
@@ -88,7 +85,7 @@ export const followUser = async (req, res) => {
   const id = req.params.id;
   const { _id } = req.body;
   console.log(id, _id);
-  if (_id == id) {
+  if (_id === id) {
     res.status(403).json('Action Forbidden');
   } else {
     try {

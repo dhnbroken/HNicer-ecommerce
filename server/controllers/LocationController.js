@@ -25,7 +25,7 @@ export const getLocation = async (req, res) => {
   const id = req.params.id;
 
   try {
-    let places = await LocationModel.findById(id);
+    const places = await LocationModel.findById(id);
     res.status(200).json(places);
   } catch (error) {
     res.status(500).json(error);
@@ -52,7 +52,7 @@ export const deleteLocation = async (req, res) => {
   const id = req.params.id;
 
   try {
-    let places = await LocationModel.findById(id);
+    const places = await LocationModel.findById(id);
     await places.deleteOne();
     res.status(200).json('Location deleted.');
   } catch (err) {

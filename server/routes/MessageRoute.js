@@ -7,4 +7,4 @@ router.post('/', addMessage);
 
 router.get('/:chatId', getMessages);
 
-export default router
+export default router;
