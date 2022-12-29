@@ -6,19 +6,15 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { login } from 'src/Service/auth-service';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
+import { ILoginData } from 'src/store/interface';
+import { login } from 'src/API/auth-service';
+
 import './Login.scss';
-
-interface IFormLogin {
-  emailAddress: string;
-  password: string;
-}
-
 const schema = yup
   .object({
-    emailAddress: yup.string().max(20).required(),
+    username: yup.string().max(20).required(),
     password: yup.string().min(6).max(20).required()
   })
   .required();
@@ -31,16 +27,16 @@ const Login = () => {
     handleSubmit,
     register,
     formState: { errors }
-  } = useForm<IFormLogin>({
+  } = useForm<ILoginData>({
     resolver: yupResolver(schema)
   });
 
-  const formSubmitHandler: SubmitHandler<IFormLogin> = (data: IFormLogin) => {
+  const formSubmitHandler: SubmitHandler<ILoginData> = (data: ILoginData) => {
     login({
-      emailAddress: data.emailAddress,
+      username: data.username,
       password: data.password
     }).then(() => {
-      navigate('/home');
+      // navigate('/home');
     });
   };
 
@@ -88,7 +84,7 @@ const Login = () => {
                     id="form3Example3"
                     className="form-control form-control-lg"
                     placeholder="Email"
-                    {...register('emailAddress')}
+                    {...register('username')}
                   />
                 </div>
 

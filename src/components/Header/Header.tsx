@@ -36,6 +36,11 @@ const Header: React.FC = () => {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to="/clothes">
+                  Clothes
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link className="nav-link" to="/about">
                   {' '}
                   About{' '}
@@ -51,12 +56,12 @@ const Header: React.FC = () => {
               <Link to="/account">
                 <FontAwesomeIcon icon={faUser} aria-hidden="true" />
               </Link>
-              <a href="">
+              <Link to="/cart">
                 <FontAwesomeIcon icon={faCartPlus} aria-hidden="true" />
-              </a>
-              <a href="">
+              </Link>
+              <Link to="">
                 <FontAwesomeIcon icon={faSearch} aria-hidden="true" />
-              </a>
+              </Link>
             </div>
           </div>
         </nav>

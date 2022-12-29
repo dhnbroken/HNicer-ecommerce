@@ -13,7 +13,7 @@ function App(): JSX.Element {
     if (!sessionStorage.getItem('token')) {
       navigate('/login');
     }
-  }, [sessionStorage.getItem('user')]);
+  }, [sessionStorage.getItem('token')]);
   return (
     <React.Fragment>
       <GlobalStoreContext>

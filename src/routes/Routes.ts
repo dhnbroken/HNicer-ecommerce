@@ -5,6 +5,8 @@ import Contact from 'src/pages/Contact/Contact';
 import Detail from 'src/pages/Detail/Detail';
 import Account from 'src/pages/Account/Account';
 import Login from 'src/pages/Login/Login';
+import Cart from 'src/pages/Cart/Cart';
+import Clothes from 'src/pages/Clothes/Clothes';
 
 const publicRoutes = [
   { path: '/', component: Home },
@@ -14,6 +16,8 @@ const publicRoutes = [
   { path: '/contact', component: Contact },
   { path: '/detail', component: Detail },
   { path: '/account', component: Account },
+  { path: '/cart', component: Cart },
+  { path: '/clothes', component: Clothes }
 ];
 
 export { publicRoutes };

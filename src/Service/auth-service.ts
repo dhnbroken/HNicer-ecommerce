@@ -1,11 +1,11 @@
-import { TLoginData } from 'src/store/interface';
+import { ILoginData } from 'src/store/interface';
 import axios from 'axios';
 import { setUserSession } from 'src/utils/Common/Common';
 
-export const login = async ({ emailAddress, password }: TLoginData) => {
+export const login = async ({ username, password }: ILoginData) => {
   return await axios
     .post('http://localhost:4000/users/signin', {
-      username: emailAddress,
+      username,
       password
     })
     .then((res) => {
