@@ -1,44 +1,39 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { faFacebook, faLinkedin, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { login } from 'src/Service/auth-service';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-interface IFormLogin {
-  emailAddress: string;
-  password: string;
-}
+import { ILoginData } from 'src/store/interface';
+import { login } from 'src/API/auth-service';
 
-interface IPassword {
-  password: string;
-  showPassword: boolean;
-}
-
+import './Login.scss';
 const schema = yup
   .object({
-    emailAddress: yup.string().max(20).required(),
+    username: yup.string().max(20).required(),
     password: yup.string().min(6).max(20).required()
   })
   .required();
 
 const Login = () => {
   const navigate: NavigateFunction = useNavigate();
+  const [hide, setHide] = useState(false);
 
   const {
     handleSubmit,
     register,
     formState: { errors }
-  } = useForm<IFormLogin>({
+  } = useForm<ILoginData>({
     resolver: yupResolver(schema)
   });
 
-  const formSubmitHandler: SubmitHandler<IFormLogin> = (data: IFormLogin) => {
+  const formSubmitHandler: SubmitHandler<ILoginData> = (data: ILoginData) => {
     login({
-      emailAddress: data.emailAddress,
+      username: data.username,
       password: data.password
     }).then(() => {
       navigate('/home');
@@ -89,19 +84,24 @@ const Login = () => {
                     id="form3Example3"
                     className="form-control form-control-lg"
                     placeholder="Email"
-                    {...register('emailAddress')}
+                    {...register('username')}
                   />
                 </div>
 
                 <div className="form-outline mb-3">
+                  <FontAwesomeIcon
+                    icon={hide ? faEyeSlash : faEye}
+                    size="lg"
+                    className="icon-btn position-absolute mt-3 ml-490"
+                    onClick={() => setHide(!hide)}
+                  />
                   <input
-                    type="password"
+                    type={hide ? 'text' : 'password'}
                     id="form3Example4"
                     className="form-control form-control-lg"
                     placeholder="Password"
                     {...register('password')}
                   />
-                  {/* <div>{errors.password ? errors.password?.message : ''}</div> */}
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center">

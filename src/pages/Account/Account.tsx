@@ -14,7 +14,7 @@ const Account = () => {
   return (
     <React.Fragment>
       {loading ? (
-        <div className="container">
+        <div className="container my-5">
           <div className="row gutters">
             <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
               <div className="card h-100">
@@ -147,7 +147,7 @@ const Account = () => {
                   <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                       <div className="text-right">
-                        <button type="button" id="submit" name="submit" className="btn btn-secondary">
+                        <button type="button" id="submit" name="submit" className="btn btn-secondary me-3">
                           Cancel
                         </button>
                         <button type="button" id="submit" name="submit" className="btn btn-primary">

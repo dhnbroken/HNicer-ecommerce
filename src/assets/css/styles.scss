@@ -399,19 +399,6 @@ a:focus {
         }
       }
     }
-
-    .new {
-      padding: 7px 15px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      background-color: $primary1;
-      color: $white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 15px;
-    }
   }
 
   .btn-box {
@@ -428,6 +415,19 @@ a:focus {
       @include hero_btn($primary1, $white, 10px, 50px, 5px);
     }
   }
+}
+
+.new {
+  padding: 7px 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: $primary1;
+  color: $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
 }
 
 // end shop section
@@ -776,3 +776,8 @@ a:focus {
 }
 
 // end footer section
+
+// custom
+.mh-390 {
+  min-height: 390px;
+}
