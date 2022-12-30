@@ -13,6 +13,7 @@ import UploadRoute from './routes/UploadRoute.js';
 import ChatRoute from './routes/ChatRoute.js';
 import MessageRoute from './routes/MessageRoute.js';
 import LocationRoute from './routes/LocationRoute.js';
+import ShoesRoute from './routes/ShoesRoute.js';
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use('/upload', UploadRoute);
 app.use('/chat', ChatRoute);
 app.use('/message', MessageRoute);
 app.use('/location', LocationRoute);
+app.use('/shoes', ShoesRoute);
 
 app.get('/*', function (req, res) {
   res.sendFile(path.join('public', 'index.html'));

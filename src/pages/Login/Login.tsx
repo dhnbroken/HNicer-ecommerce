@@ -36,7 +36,7 @@ const Login = () => {
       username: data.username,
       password: data.password
     }).then(() => {
-      // navigate('/home');
+      navigate('/home');
     });
   };
 

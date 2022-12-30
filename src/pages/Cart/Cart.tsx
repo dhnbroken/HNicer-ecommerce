@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
 import Loading from 'src/components/Loading/Loading';
 import ItemList from 'src/components/Item/ItemList';
+import CartItems from 'src/components/CartItems/CartItems';
 
 const Cart = () => {
   const { loading, getSneakers, setIsViewAll, sneakers } = useContext(GlobalContextProvider);
@@ -17,17 +18,6 @@ const Cart = () => {
   }, []);
 
   const [advertising, setAdvertising] = useState(true);
-  const [size, setSize] = React.useState('36');
-  const [quantity, setQuantity] = React.useState('1');
-
-  const handleChangeSize = (event: SelectChangeEvent) => {
-    setSize(event.target.value);
-  };
-
-  const handleChangeQuantity = (event: SelectChangeEvent) => {
-    setQuantity(event.target.value);
-  };
-
   return (
     <div className="my-5 container text-center">
       <div className="row">
@@ -41,55 +31,7 @@ const Cart = () => {
               <button className="btn-close float-end" onClick={() => setAdvertising(false)}></button>
             </div>
           ) : null}
-          <div className="text-start">
-            <h3>Bag</h3>
-            <div className="d-flex justify-content-between align-items-center">
-              <img
-                src="https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/c907dd24-bb56-4de8-af51-130318a6529f/air-max-sc-shoes-FVn5sK.png"
-                alt=""
-                width="150"
-                height="150"
-                className="image-fluid"
-              />
-              <div className="w-50">
-                <h5>Nike Air Max SC</h5>
-                <p>Women&apos; Shoes</p>
-                <p>White/Magic Ember/Black</p>
-                <div className="d-flex gap-3">
-                  <FormControl size="small">
-                    <InputLabel id="size">Size</InputLabel>
-                    <Select
-                      labelId="size"
-                      id="demo-simple-select"
-                      value={size}
-                      label="Size"
-                      onChange={handleChangeSize}
-                    >
-                      <MenuItem value={36}>36</MenuItem>
-                      <MenuItem value={38}>38</MenuItem>
-                      <MenuItem value={40}>40</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <FormControl size="small">
-                    <InputLabel id="quantity">Quantity</InputLabel>
-                    <Select
-                      labelId="quantity"
-                      id="demo-simple-select"
-                      value={quantity}
-                      label="Quantity"
-                      onChange={handleChangeQuantity}
-                    >
-                      <MenuItem value={1}>1</MenuItem>
-                      <MenuItem value={5}>5</MenuItem>
-                      <MenuItem value={10}>10</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-              </div>
-              <p>2,189,000₫</p>
-            </div>
-            <hr />
-          </div>
+          <CartItems />
         </div>
         <div className="col-4">
           <div className="text-start">
@@ -127,11 +69,11 @@ const Cart = () => {
         </div>
         <div className="text-start mt-5">
           <h3>You Might Also Like</h3>
-          <div className="overflow-auto">
+          <div className="overflow-auto text-nowrap">
             {loading ? (
               sneakers.length &&
-              sneakers.map((sneaker, index) => (
-                <div key={index} className="d-inline-block">
+              sneakers.slice(0, 7).map((sneaker, index) => (
+                <div key={index} className="w-25 d-inline-block p-2 text-wrap">
                   <ItemList sneaker={sneaker} />
                 </div>
               ))

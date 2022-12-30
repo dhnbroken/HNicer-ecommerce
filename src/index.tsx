@@ -4,11 +4,37 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
-
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+// import { MessengerChat } from 'react-messenger-chat-plugin';
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
+  // <MessengerChat
+  //   pageId="100089326740327"
+  //   language="sv_SE"
+  //   themeColor={'#000000'}
+  //   bottomSpacing={300}
+  //   loggedInGreeting="loggedInGreeting"
+  //   loggedOutGreeting="loggedOutGreeting"
+  //   greetingDialogDisplay={'show'}
+  //   debugMode={true}
+  //   onMessengerShow={() => {
+  //     console.log('onMessengerShow');
+  //   }}
+  //   onMessengerHide={() => {
+  //     console.log('onMessengerHide');
+  //   }}
+  //   onMessengerDialogShow={() => {
+  //     console.log('onMessengerDialogShow');
+  //   }}
+  //   onMessengerDialogHide={() => {
+  //     console.log('onMessengerDialogHide');
+  //   }}
+  //   onMessengerMounted={() => {
+  //     console.log('onMessengerMounted');
+  //   }}
+  //   onMessengerLoad={() => {
+  //     console.log('onMessengerLoad');
+  //   }}
+  // />,
   // <React.StrictMode>
   <Router>
     <App />

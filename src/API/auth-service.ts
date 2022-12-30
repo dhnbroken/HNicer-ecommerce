@@ -9,7 +9,7 @@ export const login = async ({ username, password }: ILoginData) => {
     })
     .then((res) => {
       if (res.data.token) {
-        sessionStorage.setItem('token', JSON.stringify(res.data));
+        sessionStorage.setItem('token', JSON.stringify(res.data.token));
       }
       return res.data;
     });
