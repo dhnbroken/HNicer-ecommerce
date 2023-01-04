@@ -5,7 +5,6 @@ import Social from 'src/components/Header/Social';
 import Shop from 'src/components/Shop/Shop';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
 import About from '../About/About';
-import Feature from 'src/components/Feature/Feature';
 import Contact from '../Contact/Contact';
 import Client from 'src/components/Client/Client';
 import Loading from 'src/components/Loading/Loading';
@@ -30,7 +29,6 @@ const Home = () => {
           </div>
           <Shop />
           <About />
-          <Feature />
           <Contact />
           <Client />
         </React.Fragment>

@@ -2,7 +2,7 @@
 import { ICart } from 'src/store/interface';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import React, { useEffect } from 'react';
-import { updateCart } from 'src/API/cart-service';
+import { deleteCart, updateCart } from 'src/API/cart-service';
 
 interface Props {
   cart: ICart;
@@ -36,6 +36,20 @@ const CartItems: React.FC<Props> = (props) => {
   useEffect(() => {
     setPrice(cart.productPrice * Number(quantity));
   }, [quantity]);
+
+  const removeCartItem = (id: string) => {
+    try {
+      deleteCart(id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleRemoveCartItem = (cart: ICart) => {
+    if (cart._id) {
+      removeCartItem(cart._id);
+    }
+  };
   return (
     <div className="text-start">
       <h3>Bag</h3>
@@ -79,6 +93,9 @@ const CartItems: React.FC<Props> = (props) => {
           </div>
         </div>
         <p className="w-15">{`$${price}`}</p>
+        <button className="btn btn-outline-danger" onClick={() => handleRemoveCartItem(cart)}>
+          Remove Item
+        </button>
       </div>
       <hr />
     </div>

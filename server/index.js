@@ -15,6 +15,7 @@ import MessageRoute from './routes/MessageRoute.js';
 import LocationRoute from './routes/LocationRoute.js';
 import ShoesRoute from './routes/ShoesRoute.js';
 import CartRoute from './routes/CartRoute.js';
+import BillRoute from './routes/BillRoute.js';
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use('/message', MessageRoute);
 app.use('/location', LocationRoute);
 app.use('/shoes', ShoesRoute);
 app.use('/cart', CartRoute);
+app.use('/bill', BillRoute);
 
 app.get('/*', function (req, res) {
   res.sendFile(path.join('public', 'index.html'));

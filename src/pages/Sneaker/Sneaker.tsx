@@ -20,14 +20,14 @@ const Sneaker = () => {
 
   return (
     <React.Fragment>
-      {loading ? <Shop /> : <Loading />}
       {userInfo.isAdmin ? (
-        <div className="container text-center mb-3">
-          <button className="btn btn-outline-info" onClick={handleAddSneaker}>
+        <div className="container text-center mt-3">
+          <button className="btn btn-outline-danger" onClick={handleAddSneaker}>
             Add sneaker
           </button>
         </div>
       ) : null}
+      {loading ? <Shop /> : <Loading />}
     </React.Fragment>
   );
 };
