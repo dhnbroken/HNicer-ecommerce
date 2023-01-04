@@ -24,6 +24,7 @@ export const TodoContext = {
   setLoading: () => {},
   getClients: () => {},
   setIsViewAll: () => {},
+  setSneakers: () => {},
   getSneakers: () => {},
   getUserInfo: () => {},
   getTodo: () => {},
@@ -33,5 +34,6 @@ export const TodoContext = {
   updateTodo: () => {},
   changeStatusTodo: () => {},
   cart: [],
-  setCart: () => {}
+  setCart: () => {},
+  getUserCart: () => {}
 };

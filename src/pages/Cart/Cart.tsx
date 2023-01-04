@@ -3,30 +3,16 @@ import React, { useState, useContext, useEffect } from 'react';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 // scss
 import './Cart.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
 import Loading from 'src/components/Loading/Loading';
 import ItemList from 'src/components/Item/ItemList';
 import CartItems from 'src/components/CartItems/CartItems';
-import { ICart } from '@/store/interface';
-import { getCartAll } from 'src/API/cart-service';
 
 const Cart = () => {
-  const { loading, setLoading, getSneakers, sneakers, cart, setCart } = useContext(GlobalContextProvider);
-  const [shipFee, setShipFee] = useState(100);
-
-  const userId = sessionStorage.getItem('userId');
-  const getUserCart = async () => {
-    try {
-      if (userId) {
-        const res = await getCartAll(userId);
-        setCart(res);
-        setLoading(true);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const { loading, setLoading, getSneakers, sneakers, cart, getUserCart } = useContext(GlobalContextProvider);
+  const [shipFee, setShipFee] = useState(10);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getSneakers();
@@ -88,7 +74,9 @@ const Cart = () => {
                   <p className="text-end">{`$${totalPrice}`}</p>
                 </div>
                 <hr />
-                <button className="w-100 btn btn-dark rounded-pill py-3 px-4">Checkout</button>
+                <button className="w-100 btn btn-dark rounded-pill py-3 px-4" onClick={() => navigate('/checkout')}>
+                  Checkout
+                </button>
               </div>
             </div>
 

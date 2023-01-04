@@ -63,6 +63,18 @@ export interface ICart {
   quantity: number;
 }
 
+export interface IBillData {
+  firstname: string;
+  lastname: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  email: string;
+  phoneNumber: string;
+  cart: ICart[];
+  totalPrice: number;
+}
+
 export type TaskAction = Get | Set | Add | Update | Delete | ChangeStatus;
 
 export interface Get {

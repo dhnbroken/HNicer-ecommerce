@@ -21,7 +21,7 @@ const schema = yup
 
 const AddSneaker = () => {
   const navigate: NavigateFunction = useNavigate();
-  const [hide, setHide] = useState(false);
+  const [fileChosen, setFileChosen] = useState('');
   const [sneakerImage, setSneakerImage] = useState<any>(null);
 
   const {
@@ -35,6 +35,7 @@ const AddSneaker = () => {
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       const img = event.target.files[0];
+      setFileChosen(URL.createObjectURL(img));
       setSneakerImage(img);
     }
   };
@@ -65,12 +66,8 @@ const AddSneaker = () => {
       <section className="mb-5">
         <div className="container-fluid h-custom">
           <div className="row d-flex justify-content-center align-items-center h-100">
-            <div className="col-md-9 col-lg-6 col-xl-5">
-              <img
-                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                className="img-fluid"
-                alt="Sample image"
-              />
+            <div className="col-md-8 col-lg-6 col-xl-5 text-center">
+              <img src={fileChosen} className="img-fluid" width="300" />
             </div>
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
               <form action="" onSubmit={handleSubmit(formSubmitHandler)} encType="multipart/form-data">

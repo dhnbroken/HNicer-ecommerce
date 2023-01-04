@@ -28,6 +28,14 @@ export const updateCart = async (id: string | undefined, data: ICart) => {
   }
 };
 
+export const deleteCart = async (id: string) => {
+  try {
+    await axiosInstanceWithAction.delete(`/cart/${id}`);
+  } catch (err) {
+    throw Error(String(err));
+  }
+};
+
 // export const getClient = async () => {
 //   try {
 //     const res = await axiosInstance.get('client');
