@@ -8,82 +8,109 @@ import { GlobalContextProvider } from 'src/Context/GlobalContext';
 import Loading from 'src/components/Loading/Loading';
 import ItemList from 'src/components/Item/ItemList';
 import CartItems from 'src/components/CartItems/CartItems';
+import { ICart } from '@/store/interface';
+import { getCartAll } from 'src/API/cart-service';
 
 const Cart = () => {
-  const { loading, getSneakers, setIsViewAll, sneakers } = useContext(GlobalContextProvider);
+  const { loading, setLoading, getSneakers, sneakers, cart, setCart } = useContext(GlobalContextProvider);
+  const [shipFee, setShipFee] = useState(100);
+
+  const userId = sessionStorage.getItem('userId');
+  const getUserCart = async () => {
+    try {
+      if (userId) {
+        const res = await getCartAll(userId);
+        setCart(res);
+        setLoading(true);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     getSneakers();
-    setIsViewAll(false);
   }, []);
+
+  useEffect(() => {
+    getUserCart();
+  }, [cart]);
+
+  const cartPrice = React.useMemo(
+    () =>
+      cart.reduce(
+        (previousValue, currentValue) => previousValue + currentValue.productPrice * currentValue.quantity,
+        0
+      ),
+    [cart]
+  );
+
+  const totalPrice = React.useMemo(() => cartPrice + shipFee, [cartPrice]);
 
   const [advertising, setAdvertising] = useState(true);
   return (
-    <div className="my-5 container text-center">
-      <div className="row">
-        <div className="col-8">
-          {advertising ? (
-            <div className="bg-custom d-flex justify-content-between align-items-center py-1 px-3 mb-3">
-              <div className="text-start">
-                <p className="mb-1">FREE DELIVERY</p>
-                <p className="mb-1">Applies to orders of 5.000.000₫ or more. View details.</p>
-              </div>
-              <button className="btn-close float-end" onClick={() => setAdvertising(false)}></button>
-            </div>
-          ) : null}
-          <CartItems />
-        </div>
-        <div className="col-4">
-          <div className="text-start">
-            <h3>Summary</h3>
-            <div className="w-100 d-flex justify-content-between">
-              <p>Subtotal</p>
-              <p className="text-end">3,519,000₫</p>
-            </div>
-            <div className="w-100 d-flex justify-content-between">
-              <p>Estimated Delivery & Handling</p>
-              <p className="text-end">250,000₫</p>
-            </div>
-            <hr />
-            <div className="w-100 d-flex justify-content-between">
-              <p>Total</p>
-              <p className="text-end">3,769,000₫</p>
-            </div>
-            <hr />
-            <button className="w-100 btn btn-dark rounded-pill py-3 px-4">Guest Checkout</button>
-            <button className="w-100 btn btn-dark rounded-pill py-3 px-4 mt-3">Member Checkout</button>
-          </div>
-        </div>
-        <div className="text-start mt-5">
-          <h3>Favourites</h3>
-          <p>
-            Want to view your favourites?{' '}
-            <Link to="/login" className="text-black">
-              Join us
-            </Link>{' '}
-            or{' '}
-            <Link to="/login" className="text-black">
-              Sign in
-            </Link>
-          </p>
-        </div>
-        <div className="text-start mt-5">
-          <h3>You Might Also Like</h3>
-          <div className="overflow-auto text-nowrap">
-            {loading ? (
-              sneakers.length &&
-              sneakers.slice(0, 7).map((sneaker, index) => (
-                <div key={index} className="w-25 d-inline-block p-2 text-wrap">
-                  <ItemList sneaker={sneaker} />
+    <React.Fragment>
+      {!loading ? (
+        <Loading />
+      ) : (
+        <div className="my-5 container text-center">
+          <div className="row">
+            <div className="col-8">
+              {advertising ? (
+                <div className="bg-custom d-flex justify-content-between align-items-center py-1 px-3 mb-3">
+                  <div className="text-start">
+                    <p className="mb-1">FREE DELIVERY</p>
+                    <p className="mb-1">Applies to orders of 5.000.000₫ or more. View details.</p>
+                  </div>
+                  <button className="btn-close float-end" onClick={() => setAdvertising(false)}></button>
                 </div>
-              ))
-            ) : (
-              <Loading />
-            )}
+              ) : null}
+              {cart.length ? (
+                cart.map((cart, index) => <CartItems key={index} getUserCart={getUserCart} cart={cart} />)
+              ) : (
+                <div>Your cart is empty</div>
+              )}
+            </div>
+            <div className="col-4">
+              <div className="text-start">
+                <h3>Summary</h3>
+                <div className="w-100 d-flex justify-content-between">
+                  <p>Subtotal</p>
+                  <p className="text-end">{`$${cartPrice}`}</p>
+                </div>
+                <div className="w-100 d-flex justify-content-between">
+                  <p>Estimated Delivery & Handling</p>
+                  <p className="text-end">{`$${shipFee}`}</p>
+                </div>
+                <hr />
+                <div className="w-100 d-flex justify-content-between">
+                  <p>Total</p>
+                  <p className="text-end">{`$${totalPrice}`}</p>
+                </div>
+                <hr />
+                <button className="w-100 btn btn-dark rounded-pill py-3 px-4">Checkout</button>
+              </div>
+            </div>
+
+            <div className="text-start mt-5">
+              <h3>You Might Also Like</h3>
+              <div className="overflow-auto text-nowrap">
+                {!loading ? (
+                  <Loading />
+                ) : (
+                  sneakers.length &&
+                  sneakers.slice(0, 7).map((sneaker, index) => (
+                    <div key={index} className="w-25 d-inline-block p-2 text-wrap">
+                      <ItemList sneaker={sneaker} />
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </React.Fragment>
   );
 };
 

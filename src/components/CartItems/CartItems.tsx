@@ -1,37 +1,61 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { ICart } from 'src/store/interface';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { updateCart } from 'src/API/cart-service';
 
-const CartItems = () => {
-  const [size, setSize] = React.useState('36');
-  const [quantity, setQuantity] = React.useState('1');
+interface Props {
+  cart: ICart;
+  getUserCart: Function;
+}
 
-  const handleChangeSize = (event: SelectChangeEvent) => {
+const CartItems: React.FC<Props> = (props) => {
+  const serverPublic = 'http://localhost:5000/images/';
+  const { cart, getUserCart } = props;
+  const [size, setSize] = React.useState(cart.productSize.toString());
+  const [quantity, setQuantity] = React.useState(cart.quantity.toString());
+  const [price, setPrice] = React.useState(cart.productPrice);
+
+  const updateUserCart = async (id: string | undefined, data: ICart) => {
+    try {
+      const res = updateCart(id, data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleChangeSize = (event: SelectChangeEvent, cart: ICart) => {
+    updateUserCart(cart._id, { ...cart, productSize: Number(event.target.value) });
     setSize(event.target.value);
   };
 
-  const handleChangeQuantity = (event: SelectChangeEvent) => {
+  const handleChangeQuantity = async (event: SelectChangeEvent) => {
+    await updateUserCart(cart._id, { ...cart, quantity: Number(event.target.value) });
     setQuantity(event.target.value);
   };
 
+  useEffect(() => {
+    setPrice(cart.productPrice * Number(quantity));
+  }, [quantity]);
   return (
     <div className="text-start">
       <h3>Bag</h3>
       <div className="d-flex justify-content-between align-items-center">
-        <img
-          src="https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/c907dd24-bb56-4de8-af51-130318a6529f/air-max-sc-shoes-FVn5sK.png"
-          alt=""
-          width="150"
-          height="150"
-          className="image-fluid"
-        />
+        <img src={serverPublic + cart.productImage} alt="" width="150" height="150" className="image-fluid" />
         <div className="w-50">
-          <h5>Nike Air Max SC</h5>
-          <p>Women&apos; Shoes</p>
+          <h5>{cart.productName}</h5>
+          <p>{cart.productTags}</p>
           <p>White/Magic Ember/Black</p>
           <div className="d-flex gap-3">
             <FormControl size="small">
               <InputLabel id="size">Size</InputLabel>
-              <Select labelId="size" id="demo-simple-select" value={size} label="Size" onChange={handleChangeSize}>
+              <Select
+                labelId="size"
+                id="demo-simple-select"
+                value={size}
+                defaultValue={cart.productSize.toString()}
+                label="Size"
+                onChange={(e) => handleChangeSize(e, cart)}
+              >
                 <MenuItem value={36}>36</MenuItem>
                 <MenuItem value={38}>38</MenuItem>
                 <MenuItem value={40}>40</MenuItem>
@@ -43,6 +67,7 @@ const CartItems = () => {
                 labelId="quantity"
                 id="demo-simple-select"
                 value={quantity}
+                defaultValue={cart.quantity.toString()}
                 label="Quantity"
                 onChange={handleChangeQuantity}
               >
@@ -53,7 +78,7 @@ const CartItems = () => {
             </FormControl>
           </div>
         </div>
-        <p>2,189,000₫</p>
+        <p className="w-15">{`$${price}`}</p>
       </div>
       <hr />
     </div>

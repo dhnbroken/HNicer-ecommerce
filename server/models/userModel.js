@@ -4,27 +4,26 @@ const UserSchema = mongoose.Schema(
   {
     username: {
       type: String,
-      required: true,
+      required: true
     },
     password: {
       type: String,
-      required: true,
+      required: true
     },
     firstname: {
       type: String,
-      required: true,
+      required: true
     },
     lastname: {
       type: String,
-      required: true,
+      required: true
     },
     isAdmin: {
       type: Boolean,
-      default: false,
+      default: false
     },
     emailAddress: {
-      type: String,
-      required: true,
+      type: String
     },
     avatarPath: String,
     phoneNumber: String,
@@ -34,9 +33,9 @@ const UserSchema = mongoose.Schema(
     relationship: String,
     country: String,
     followers: [],
-    following: [],
+    following: []
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 const UserModel = mongoose.model('Users', UserSchema);

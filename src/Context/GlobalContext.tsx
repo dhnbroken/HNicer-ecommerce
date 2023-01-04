@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { TaskInfoAPI, TaskState, PropsProvider, ISneaker, IClient, IUser } from 'src/store/interface';
+import { TaskInfoAPI, TaskState, PropsProvider, ISneaker, IClient, IUser, ICart } from 'src/store/interface';
 import React, { createContext, useReducer, useState } from 'react';
 import taskReducer from 'src/store/reducer';
 import { initUser, intialState } from 'src/store/constants';
 import * as actions from 'src/store/actions';
 import { TodoContext } from './TodoContext';
-import { getAllSneaker, getClient } from 'src/Service/sneaker-service';
-import { getCurrentUserInfo } from 'src/Service/userInfo-service';
+import { getClient } from 'src/Service/sneaker-service';
+import { getAllSneaker } from 'src/API/sneaker-service';
+import { getCurrentUserInfomation } from 'src/API/user-service';
 
 export interface GlobalContext {
   state: TaskState;
@@ -26,6 +27,8 @@ export interface GlobalContext {
   isViewAll: boolean;
   userInfo: IUser;
   setIsViewAll: (isViewAll: boolean) => void;
+  cart: ICart[];
+  setCart: (cart: ICart[]) => void;
 }
 
 export const GlobalContextProvider = createContext<GlobalContext>(TodoContext);
@@ -33,6 +36,7 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
   const [sneakers, setSneakers] = useState<ISneaker[]>([]);
   const [clients, setClients] = useState<IClient[]>([]);
   const [userInfo, setUserInfo] = useState<IUser>(initUser);
+  const [cart, setCart] = useState<ICart[]>([]);
 
   const [isViewAll, setIsViewAll] = useState(false);
 
@@ -46,6 +50,14 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
   const updateTodo = (payload: TaskInfoAPI) => dispatch(actions.updateTodoInput(payload));
   const changeStatusTodo = (payload: TaskInfoAPI) => dispatch(actions.changeStatus(payload));
 
+  const userId = sessionStorage.getItem('userId');
+  // const getSneakers = async () => {
+  //   try {
+  //     const res = await getAllSneaker();
+  //     setSneakers(res);
+  //     setLoading(true);
+  //   } catch (err) {}
+  // };
   const getSneakers = async () => {
     try {
       const res = await getAllSneaker();
@@ -64,9 +76,11 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
 
   const getUserInfo = async () => {
     try {
-      const res = await getCurrentUserInfo();
-      setUserInfo(res[0]);
-      setLoading(true);
+      if (userId) {
+        const res = await getCurrentUserInfomation(userId);
+        setUserInfo(res);
+        setLoading(true);
+      }
     } catch (err) {}
   };
 
@@ -88,7 +102,9 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
     getUserInfo,
     loading,
     setLoading,
-    changeStatusTodo
+    changeStatusTodo,
+    cart,
+    setCart
   };
   return <GlobalContextProvider.Provider value={valueContext}>{children}</GlobalContextProvider.Provider>;
 };

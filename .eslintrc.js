@@ -28,6 +28,7 @@ module.exports = {
     'no-lone-blocks': 'off',
     'multiline-ternary': 'off',
     'comma-dangle': 'off',
-    '@typescript-eslint/member-delimiter-style': 'off'
+    '@typescript-eslint/member-delimiter-style': 'off',
+    '@typescript-eslint/restrict-plus-operands': 'off'
   }
 };

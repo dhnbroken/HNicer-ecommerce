@@ -5,16 +5,23 @@ export interface ILoginData {
   password: string;
 }
 
-export interface TSignUpData {
+export interface ISignUpData {
   username: string;
-  password: String;
+  password: string;
   firstname: string;
   lastname: string;
 }
 
 // Interface
 export interface ISneaker {
-  id: number;
+  _id: string;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+}
+
+export interface ISneakerData {
   name: string;
   price: number;
   image: string;
@@ -29,11 +36,12 @@ export interface IClient {
 }
 
 export interface IUser {
-  id: number;
-  firstName: string;
-  lastName: string;
-  avatar: string;
-  email: string;
+  _id: number;
+  firstname: string;
+  lastname: string;
+  isAdmin: boolean;
+  avatar?: string;
+  email?: string;
   phone?: string;
   street?: string;
   city?: string;
@@ -41,6 +49,18 @@ export interface IUser {
   zipCode?: string;
   description?: string;
   webSiteUrl?: string;
+}
+
+export interface ICart {
+  _id?: string;
+  userId: string | null;
+  productId: string;
+  productImage: string;
+  productName: string;
+  productTags: string;
+  productPrice: number;
+  productSize: number;
+  quantity: number;
 }
 
 export type TaskAction = Get | Set | Add | Update | Delete | ChangeStatus;

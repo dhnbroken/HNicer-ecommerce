@@ -2,15 +2,22 @@ import Loading from 'src/components/Loading/Loading';
 import React, { useEffect, useContext } from 'react';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
 import './Account.scss';
+import { useNavigate } from 'react-router-dom';
 
 const Account = () => {
-  const { getUserInfo, userInfo, setLoading, loading } = useContext(GlobalContextProvider);
-
+  const { userInfo, setLoading, loading, getUserInfo } = useContext(GlobalContextProvider);
+  const serverPublic = 'http://localhost:5000/images/';
+  const navigate = useNavigate();
   useEffect(() => {
-    getUserInfo();
     setLoading(false);
+    getUserInfo();
   }, []);
 
+  console.log(userInfo);
+  const handleLogOut = () => {
+    sessionStorage.clear();
+    navigate('/login');
+  };
   return (
     <React.Fragment>
       {loading ? (
@@ -22,16 +29,20 @@ const Account = () => {
                   <div className="account-settings">
                     <div className="user-profile">
                       <div className="user-avatar">
-                        <img src={userInfo.avatar} alt="Maxwell Admin" />
+                        <img src={userInfo.avatar ?? serverPublic + 'seo-title.jpg'} alt="Avatar" />
                       </div>
-                      <h5 className="user-name">{`${userInfo.firstName} ${userInfo.lastName}`}</h5>
+                      <h5 className="user-name">{`${userInfo.firstname} ${userInfo.lastname}`}</h5>
                       <h6 className="user-email">{userInfo.email}</h6>
+                      {userInfo.isAdmin && <h6 className="text-danger">Role: Admin</h6>}
                     </div>
                     <div className="about">
                       <h5>About</h5>
-                      <p>{userInfo.description}</p>
+                      <p>{!userInfo.isAdmin ? userInfo.description : "I'm Admin of this page"}</p>
                     </div>
                   </div>
+                  <button className="btn btn-outline-danger mb-3 w-100" onClick={handleLogOut}>
+                    Log Out
+                  </button>
                 </div>
               </div>
             </div>
@@ -50,7 +61,7 @@ const Account = () => {
                           className="form-control"
                           id="fullName"
                           placeholder="Enter full name"
-                          defaultValue={`${userInfo.firstName} ${userInfo.lastName}`}
+                          defaultValue={`${userInfo.firstname} ${userInfo.lastname}`}
                         />
                       </div>
                     </div>

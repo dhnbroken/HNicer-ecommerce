@@ -1,27 +1,57 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { toastMsg } from 'src/store/toast';
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ISneaker } from '@/store/interface';
+import { ICart, ISneaker } from 'src/store/interface';
+import { GlobalContextProvider } from 'src/Context/GlobalContext';
+import { addToCart } from 'src/API/cart-service';
+import { removeShoes } from 'src/API/sneaker-service';
+
 const Detail = () => {
+  const serverPublic = 'http://localhost:5000/images/';
+
   const location = useLocation();
+  const navigate = useNavigate();
   const { sneaker } = location.state;
 
-  const [cartItems, setCartItems] = useState<ISneaker[]>([]);
+  const { cart, setCart, userInfo } = React.useContext(GlobalContextProvider);
+  const userId = sessionStorage.getItem('userId');
 
-  const handleAddCart = (sneaker: ISneaker) => {
-    toast.success('Add to cart successfully', toastMsg);
-    const newCartItems = [...cartItems, sneaker];
-    setCartItems(newCartItems);
+  const addProductToCart = async (data: ICart) => {
+    try {
+      const res = await addToCart(data);
+      const newCartItems = [...cart, res];
+      setCart(newCartItems);
+    } catch (err) {
+      console.log(err);
+    }
   };
-  console.log(cartItems);
+  const handleRemoveSneaker = async (sneaker: ISneaker) => {
+    await removeShoes(sneaker._id).then(() => navigate('/sneaker'));
+  };
+  const handleAddCart = (sneaker: ISneaker) => {
+    if (userId) {
+      const productData: ICart = {
+        userId,
+        productId: sneaker._id,
+        productImage: sneaker.image,
+        productName: sneaker.name,
+        productTags: 'Shoes',
+        productPrice: sneaker.price,
+        productSize: 36,
+        quantity: 1
+      };
+      addProductToCart(productData);
+    }
+  };
   return (
     <section className="contact_section my-4 p-4">
       <div className="container">
         <div className="row">
           <div className="col-md-6">
             <div className="img-box">
-              <img src={sneaker.image} width="608" alt="" />
+              <img src={serverPublic + sneaker.image} width="608" alt="" />
             </div>
           </div>
           <div className="col-md-6">
@@ -31,8 +61,11 @@ const Detail = () => {
               <p>{sneaker.description}</p>
             </div>
             <div>
-              <button className="btn btn-outline-danger" onClick={() => handleAddCart(sneaker)}>
-                Add to Cart
+              <button
+                className="btn btn-outline-danger"
+                onClick={() => (userInfo.isAdmin ? handleRemoveSneaker(sneaker) : handleAddCart(sneaker))}
+              >
+                {userInfo.isAdmin ? 'Remove Sneaker' : 'Add to Cart'}
               </button>
             </div>
           </div>

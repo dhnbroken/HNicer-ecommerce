@@ -2,17 +2,34 @@ import React, { useContext, useEffect } from 'react';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
 import Shop from 'src/components/Shop/Shop';
 import Loading from 'src/components/Loading/Loading';
+import { useNavigate } from 'react-router-dom';
 
 const Sneaker = () => {
-  const { getSneakers, setIsViewAll, setLoading, loading } = useContext(GlobalContextProvider);
-
+  const { getSneakers, setIsViewAll, setLoading, loading, getUserInfo, userInfo } = useContext(GlobalContextProvider);
+  const navigate = useNavigate();
   useEffect(() => {
+    setLoading(false);
     getSneakers();
     setIsViewAll(true);
-    setLoading(false);
+    getUserInfo();
   }, []);
 
-  return <React.Fragment>{loading ? <Shop /> : <Loading />}</React.Fragment>;
+  const handleAddSneaker = () => {
+    navigate('/sneaker/add');
+  };
+
+  return (
+    <React.Fragment>
+      {loading ? <Shop /> : <Loading />}
+      {userInfo.isAdmin ? (
+        <div className="container text-center mb-3">
+          <button className="btn btn-outline-info" onClick={handleAddSneaker}>
+            Add sneaker
+          </button>
+        </div>
+      ) : null}
+    </React.Fragment>
+  );
 };
 
 export default Sneaker;

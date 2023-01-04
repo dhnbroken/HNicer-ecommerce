@@ -8,10 +8,10 @@ import * as yup from 'yup';
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-import { ILoginData } from 'src/store/interface';
-import { login } from 'src/API/auth-service';
+import { ISignUpData } from 'src/store/interface';
+import { signup } from 'src/API/auth-service';
 
-import './Login.scss';
+import './Register.scss';
 const schema = yup
   .object({
     username: yup.string().max(20).required(),
@@ -19,7 +19,7 @@ const schema = yup
   })
   .required();
 
-const Login = () => {
+const Register = () => {
   const navigate: NavigateFunction = useNavigate();
   const [hide, setHide] = useState(false);
 
@@ -27,16 +27,19 @@ const Login = () => {
     handleSubmit,
     register,
     formState: { errors }
-  } = useForm<ILoginData>({
+  } = useForm<ISignUpData>({
     resolver: yupResolver(schema)
   });
 
-  const formSubmitHandler: SubmitHandler<ILoginData> = (data: ILoginData) => {
-    login({
+  const formSubmitHandler: SubmitHandler<ISignUpData> = (data: ISignUpData) => {
+    signup({
       username: data.username,
-      password: data.password
+      password: data.password,
+      firstname: data.firstname,
+      lastname: data.lastname
     }).then(() => {
-      navigate('/home');
+      sessionStorage.removeItem('isRegister');
+      navigate('/login');
     });
   };
 
@@ -83,8 +86,26 @@ const Login = () => {
                     type="text"
                     id="form3Example3"
                     className="form-control form-control-lg"
-                    placeholder="Email"
+                    placeholder="Username"
                     {...register('username')}
+                  />
+                </div>
+                <div className="form-outline mb-3">
+                  <input
+                    type="text"
+                    id="form3Example4"
+                    className="form-control form-control-lg"
+                    placeholder="First name"
+                    {...register('firstname')}
+                  />
+                </div>
+                <div className="form-outline mb-3">
+                  <input
+                    type="text"
+                    id="form3Example4"
+                    className="form-control form-control-lg"
+                    placeholder="Last name"
+                    {...register('lastname')}
                   />
                 </div>
 
@@ -116,16 +137,12 @@ const Login = () => {
 
                 <div className="text-center text-lg-start mt-4 pt-2">
                   <button type="submit" className="btn btn-primary btn-lg">
-                    Login
+                    Register
                   </button>
                   <p className="small fw-bold mt-2 pt-1 mb-0">
-                    Dont have an account?{' '}
-                    <Link
-                      to="/register"
-                      onClick={() => sessionStorage.setItem('isRegister', 'registering')}
-                      className="link-danger"
-                    >
-                      Register
+                    Already have an account?{' '}
+                    <Link to="/login" onClick={() => sessionStorage.removeItem('isRegister')} className="link-danger">
+                      Login
                     </Link>
                   </p>
                 </div>
@@ -138,4 +155,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

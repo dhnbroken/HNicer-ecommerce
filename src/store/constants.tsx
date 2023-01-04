@@ -15,7 +15,7 @@ export const intialState = {
 };
 
 export const initSneaker: ISneaker = {
-  id: 0,
+  _id: '',
   name: '',
   description: '',
   price: 0,
@@ -23,9 +23,8 @@ export const initSneaker: ISneaker = {
 };
 
 export const initUser: IUser = {
-  id: 0,
-  firstName: '',
-  lastName: '',
-  avatar: '',
-  email: ''
+  _id: 0,
+  isAdmin: false,
+  firstname: '',
+  lastname: ''
 };

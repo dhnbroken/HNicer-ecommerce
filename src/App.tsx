@@ -11,17 +11,21 @@ function App(): JSX.Element {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (sessionStorage.getItem('isRegister')) {
+      navigate('/register');
+    }
     if (!sessionStorage.getItem('token')) {
       navigate('/login');
     }
   }, [sessionStorage.getItem('token')]);
+
   return (
     <React.Fragment>
       <GlobalStoreContext>
         <MainRoutes />
         <ToastContainer
           position="bottom-right"
-          autoClose={3000}
+          autoClose={1000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick

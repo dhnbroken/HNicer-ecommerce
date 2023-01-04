@@ -15,6 +15,7 @@ export const TodoContext = {
     editId: 0,
     editDeadline: ''
   },
+  userId: '',
   userInfo: initUser,
   sneakers: [],
   isViewAll: false,
@@ -30,5 +31,7 @@ export const TodoContext = {
   addTodo: () => {},
   deleteTodo: () => {},
   updateTodo: () => {},
-  changeStatusTodo: () => {}
+  changeStatusTodo: () => {},
+  cart: [],
+  setCart: () => {}
 };
