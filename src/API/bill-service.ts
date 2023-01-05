@@ -1,5 +1,5 @@
 import { IBillData } from './../store/interface';
-import { axiosInstanceWithAction } from './axios';
+import { axiosInstanceWithAction, axiosInstance } from './axios';
 
 export const createBill = async (data: IBillData) => {
   try {
@@ -10,11 +10,11 @@ export const createBill = async (data: IBillData) => {
   }
 };
 
-// export const getClient = async () => {
-//   try {
-//     const res = await axiosInstance.get('client');
-//     return res.data;
-//   } catch (error) {
-//     throw Error(String(error));
-//   }
-// };
+export const getAllBill = async () => {
+  try {
+    const res = await axiosInstance.get('/bill');
+    return res.data;
+  } catch (error) {
+    throw Error(String(error));
+  }
+};

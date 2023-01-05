@@ -25,20 +25,30 @@ export const getAllBill = async (req, res) => {
     res.status(500).json(error);
   }
 };
-// get cart
-// export const getBill = async (req, res) => {
-//   const id = req.params.id;
 
-//   try {
-//     let bills = await BillModel.find();
-//     bills = bills.filter((bill) => {
-//       return bill.userId === id;
-//     });
-//     res.status(200).json(bills);
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// };
+// get cart
+export const getBill = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const bills = await BillModel.findById(id);
+    res.status(200).json(bills);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+// update Cart
+export const updateBill = async (req, res) => {
+  const cartId = req.params.id;
+
+  try {
+    const cart = await BillModel.findById(cartId);
+
+    await cart.updateOne({ $set: req.body });
+    res.status(200).json('Bill updated!');
+  } catch (error) {}
+};
 
 // Delete Cart
 // export const deleteCart = async (req, res) => {
@@ -51,20 +61,4 @@ export const getAllBill = async (req, res) => {
 //   } catch (err) {
 //     res.status(500).json(err);
 //   }
-// };
-
-// update Cart
-// export const updateCart = async (req, res) => {
-//   const cartId = req.params.id;
-//   const { userId } = req.body;
-
-//   try {
-//     const cart = await CartModel.findById(cartId);
-//     if (cart.userId === userId) {
-//       await cart.updateOne({ $set: req.body });
-//       res.status(200).json('Cart updated!');
-//     } else {
-//       res.status(403).json('Authentication failed');
-//     }
-//   } catch (error) {}
 // };

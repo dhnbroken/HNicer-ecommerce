@@ -73,6 +73,8 @@ export interface IBillData {
   phoneNumber: string;
   cart: ICart[];
   totalPrice: number;
+  createAt?: string;
+  status?: string;
 }
 
 export type TaskAction = Get | Set | Add | Update | Delete | ChangeStatus;

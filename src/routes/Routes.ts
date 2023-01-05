@@ -9,6 +9,7 @@ import Cart from 'src/pages/Cart/Cart';
 import Register from 'src/pages/Register/Register';
 import AddSneaker from 'src/pages/AddSneaker/AddSneaker';
 import Checkout from 'src/pages/Checkout/Checkout';
+import Bill from 'src/pages/Bill/Bill';
 
 const publicRoutes = [
   { path: '/', component: Home },
@@ -21,7 +22,8 @@ const publicRoutes = [
   { path: '/cart', component: Cart },
   { path: '/register', component: Register },
   { path: '/sneaker/add', component: AddSneaker },
-  { path: '/checkout', component: Checkout }
+  { path: '/checkout', component: Checkout },
+  { path: '/bill', component: Bill }
 ];
 
 export { publicRoutes };

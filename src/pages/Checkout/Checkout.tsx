@@ -19,6 +19,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { IBillData, ICart } from 'src/store/interface';
 import { createBill } from 'src/API/bill-service';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { toastMsg } from 'src/store/toast';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -41,12 +44,14 @@ const schema = yup
   .required();
 
 const Checkout = () => {
-  const { userInfo, cart, getUserCart } = React.useContext(GlobalContextProvider);
+  const { userInfo, cart, getUserCart, removeCartItem } = React.useContext(GlobalContextProvider);
   const [city, setCity] = React.useState('HCM');
-  const shipFee = 10;
+  const [shipFee, setShipFee] = React.useState(0);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     getUserCart();
+    cart.length ? setShipFee(10) : setShipFee(0);
   }, []);
 
   const {
@@ -83,8 +88,9 @@ const Checkout = () => {
 
   const formSubmitHandler: SubmitHandler<IBillData> = (data: IBillData) => {
     data = { ...data, phoneNumber: '+84' + data.phoneNumber, cart, totalPrice };
-    console.log(data);
-    createNewBill(data);
+    cart.length > 0 ? createNewBill(data) : toast.warning('Giỏ hàng rỗng', toastMsg);
+    cart.map((cart) => cart._id && removeCartItem(cart._id));
+    navigate('/home');
   };
 
   return (
@@ -142,7 +148,7 @@ const Checkout = () => {
             </div>
             <div className="w-100 d-flex justify-content-between">
               <p>Estimated Delivery & Handling</p>
-              <p className="text-end">{shipFee}</p>
+              <p className="text-end">{`$${shipFee}`}</p>
             </div>
             <hr />
             <div className="w-100 d-flex justify-content-between">
