@@ -1,17 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useContext, useEffect } from 'react';
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-// scss
-import './Cart.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
 import Loading from 'src/components/Loading/Loading';
 import ItemList from 'src/components/Item/ItemList';
 import CartItems from 'src/components/CartItems/CartItems';
+import { toast } from 'react-toastify';
+import { toastMsg } from 'src/store/toast';
+
+import './Cart.scss';
 
 const Cart = () => {
-  const { loading, setLoading, getSneakers, sneakers, cart, getUserCart } = useContext(GlobalContextProvider);
-  const [shipFee, setShipFee] = useState(10);
+  const { loading, getSneakers, sneakers, cart, getUserCart } = useContext(GlobalContextProvider);
+  const [shipFee, setShipFee] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,6 +20,7 @@ const Cart = () => {
 
   useEffect(() => {
     getUserCart();
+    cart.length ? setShipFee(10) : setShipFee(0);
   }, [cart]);
 
   const cartPrice = React.useMemo(
@@ -31,7 +32,7 @@ const Cart = () => {
     [cart]
   );
 
-  const totalPrice = React.useMemo(() => cartPrice + shipFee, [cartPrice]);
+  const totalPrice = React.useMemo(() => cartPrice + shipFee, [cartPrice, shipFee]);
 
   const [advertising, setAdvertising] = useState(true);
   return (
@@ -74,7 +75,12 @@ const Cart = () => {
                   <p className="text-end">{`$${totalPrice}`}</p>
                 </div>
                 <hr />
-                <button className="w-100 btn btn-dark rounded-pill py-3 px-4" onClick={() => navigate('/checkout')}>
+                <button
+                  className="w-100 btn btn-dark rounded-pill py-3 px-4"
+                  onClick={() => {
+                    !cart.length ? toast.warning('Cart empty', toastMsg) : navigate('/checkout');
+                  }}
+                >
                   Checkout
                 </button>
               </div>

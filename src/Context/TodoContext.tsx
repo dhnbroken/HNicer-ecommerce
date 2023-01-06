@@ -35,5 +35,9 @@ export const TodoContext = {
   changeStatusTodo: () => {},
   cart: [],
   setCart: () => {},
-  getUserCart: () => {}
+  getUserCart: () => {},
+  removeCartItem: (id: string) => {},
+  bills: [],
+  setBills: () => {},
+  getBills: () => {}
 };

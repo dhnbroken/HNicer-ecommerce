@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { TaskInfoAPI, TaskState, PropsProvider, ISneaker, IClient, IUser, ICart } from 'src/store/interface';
+import { TaskInfoAPI, TaskState, PropsProvider, ISneaker, IClient, IUser, ICart, IBillData } from 'src/store/interface';
 import React, { createContext, useReducer, useState } from 'react';
 import taskReducer from 'src/store/reducer';
 import { initUser, intialState } from 'src/store/constants';
@@ -8,7 +8,8 @@ import { TodoContext } from './TodoContext';
 import { getClient } from 'src/Service/sneaker-service';
 import { getAllSneaker } from 'src/API/sneaker-service';
 import { getCurrentUserInfomation } from 'src/API/user-service';
-import { getCartAll } from 'src/API/cart-service';
+import { deleteCart, getCartAll } from 'src/API/cart-service';
+import { getAllBill } from 'src/API/bill-service';
 
 export interface GlobalContext {
   state: TaskState;
@@ -32,6 +33,10 @@ export interface GlobalContext {
   cart: ICart[];
   setCart: (cart: ICart[]) => void;
   getUserCart: () => void;
+  removeCartItem: (id: string) => void;
+  bills: IBillData[];
+  setBills: (bills: IBillData[]) => void;
+  getBills: () => void;
 }
 
 export const GlobalContextProvider = createContext<GlobalContext>(TodoContext);
@@ -40,6 +45,7 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
   const [clients, setClients] = useState<IClient[]>([]);
   const [userInfo, setUserInfo] = useState<IUser>(initUser);
   const [cart, setCart] = useState<ICart[]>([]);
+  const [bills, setBills] = useState<IBillData[]>([]);
 
   const [isViewAll, setIsViewAll] = useState(false);
 
@@ -92,6 +98,24 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
     }
   };
 
+  const removeCartItem = (id: string) => {
+    try {
+      deleteCart(id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getBills = async () => {
+    try {
+      const res = await getAllBill();
+      setBills(res);
+      setLoading(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const valueContext = {
     state,
     sneakers,
@@ -113,7 +137,11 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
     changeStatusTodo,
     cart,
     setCart,
-    getUserCart
+    getUserCart,
+    removeCartItem,
+    getBills,
+    bills,
+    setBills
   };
   return <GlobalContextProvider.Provider value={valueContext}>{children}</GlobalContextProvider.Provider>;
 };

@@ -11,7 +11,8 @@ const BillSchema = new mongoose.Schema(
     email: { type: String },
     phoneNumber: { type: String },
     cart: { type: Array },
-    totalPrice: { type: Number }
+    totalPrice: { type: Number },
+    status: { type: String, default: 'Pending' }
   },
   {
     timestamps: true

@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ICart } from 'src/store/interface';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { deleteCart, updateCart } from 'src/API/cart-service';
+import { GlobalContextProvider } from 'src/Context/GlobalContext';
 
 interface Props {
   cart: ICart;
@@ -12,6 +13,7 @@ interface Props {
 const CartItems: React.FC<Props> = (props) => {
   const serverPublic = 'http://localhost:5000/images/';
   const { cart, getUserCart } = props;
+  const { removeCartItem } = useContext(GlobalContextProvider);
   const [size, setSize] = React.useState(cart.productSize.toString());
   const [quantity, setQuantity] = React.useState(cart.quantity.toString());
   const [price, setPrice] = React.useState(cart.productPrice);
@@ -37,14 +39,6 @@ const CartItems: React.FC<Props> = (props) => {
     setPrice(cart.productPrice * Number(quantity));
   }, [quantity]);
 
-  const removeCartItem = (id: string) => {
-    try {
-      deleteCart(id);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const handleRemoveCartItem = (cart: ICart) => {
     if (cart._id) {
       removeCartItem(cart._id);
@@ -57,8 +51,6 @@ const CartItems: React.FC<Props> = (props) => {
         <img src={serverPublic + cart.productImage} alt="" width="150" height="150" className="image-fluid" />
         <div className="w-50">
           <h5>{cart.productName}</h5>
-          <p>{cart.productTags}</p>
-          <p>White/Magic Ember/Black</p>
           <div className="d-flex gap-3">
             <FormControl size="small">
               <InputLabel id="size">Size</InputLabel>

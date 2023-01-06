@@ -40,6 +40,11 @@ const Account = () => {
                       <p>{!userInfo.isAdmin ? userInfo.description : "I'm Admin of this page"}</p>
                     </div>
                   </div>
+                  {userInfo.isAdmin && (
+                    <button className="btn btn-outline-info mb-3 w-100" onClick={() => navigate('/bill')}>
+                      Bill
+                    </button>
+                  )}
                   <button className="btn btn-outline-danger mb-3 w-100" onClick={handleLogOut}>
                     Log Out
                   </button>

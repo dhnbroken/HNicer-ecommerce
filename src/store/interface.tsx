@@ -64,6 +64,7 @@ export interface ICart {
 }
 
 export interface IBillData {
+  _id: string;
   firstname: string;
   lastname: string;
   addressLine1: string;
@@ -73,6 +74,8 @@ export interface IBillData {
   phoneNumber: string;
   cart: ICart[];
   totalPrice: number;
+  createAt?: string;
+  status?: string;
 }
 
 export type TaskAction = Get | Set | Add | Update | Delete | ChangeStatus;
