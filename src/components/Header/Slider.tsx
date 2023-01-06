@@ -4,7 +4,7 @@ import 'src/assets/css/styles.scss';
 import './header.scss';
 
 const Slider = () => {
-  const slider = 'https://www.nicepng.com/png/full/253-2538656_puma-1948-mid-gtx-jr-black-toreador-white.png';
+  const slider = 'http://localhost:5000/images/PngItem_52854.png';
 
   return (
     <React.Fragment>
@@ -15,17 +15,17 @@ const Slider = () => {
               <div className="container">
                 <div className="row align-items-center">
                   <div className="col-md-7 col-12 order-md-1 order-2">
-                    <h4>Puma 1948 MID GORE-TEX</h4>
+                    <h4>Air Jordan 1 Retro High OG – Patent Bred</h4>
                     <p>
-                      Combining PUMA Formstrip heritage with performance making, these classic and sporty 1948 Mid
-                      Winter Shoes Gore Tex in Black from Puma will keep little feet warm and dry during the cooler
-                      months.
+                      The Air Jordan 1 High Bred Patent features black and red patent leather upper with signature
+                      weaved Nike Air tongue labels. From there, a classic Wings logo on the collar and a white with red
+                      Air sole complete the retro design.
                     </p>
                     <br />
                     <Link to="/sneaker">BUY NOW</Link>
                   </div>
                   <div className="col-md-5 col-12 order-md-2 order-1">
-                    <img src={slider} className="mx-auto" alt="slide" />
+                    <img src={slider} className="mx-auto mt-4" alt="slide" />
                   </div>
                 </div>
               </div>

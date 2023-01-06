@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
@@ -10,23 +11,24 @@ import { toastMsg } from 'src/store/toast';
 import './Cart.scss';
 
 const Cart = () => {
-  const { loading, getSneakers, sneakers, cart, getUserCart } = useContext(GlobalContextProvider);
+  const { loading, getSneakers, sneakers, cart, getUserCart, setLoading } = useContext(GlobalContextProvider);
   const [shipFee, setShipFee] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
+    setLoading(false);
     getSneakers();
+    cart.length && setShipFee(10);
   }, []);
 
   useEffect(() => {
     getUserCart();
-    cart.length ? setShipFee(10) : setShipFee(0);
-  }, [cart]);
+  }, []);
 
   const cartPrice = React.useMemo(
     () =>
       cart.reduce(
-        (previousValue, currentValue) => previousValue + currentValue.productPrice * currentValue.quantity,
+        (previousValue, currentValue) => previousValue + currentValue?.productPrice * currentValue?.quantity,
         0
       ),
     [cart]
@@ -53,7 +55,10 @@ const Cart = () => {
                 </div>
               ) : null}
               {cart.length ? (
-                cart.map((cart, index) => <CartItems key={index} getUserCart={getUserCart} cart={cart} />)
+                cart.map(
+                  (cart, index) =>
+                    typeof cart !== 'undefined' && <CartItems key={index} getUserCart={getUserCart} cart={cart} />
+                )
               ) : (
                 <div>Your cart is empty</div>
               )}

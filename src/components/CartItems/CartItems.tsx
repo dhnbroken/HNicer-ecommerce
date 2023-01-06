@@ -25,6 +25,8 @@ const CartItems: React.FC<Props> = (props) => {
       console.log(err);
     }
   };
+
+  console.log(cart);
   const handleChangeSize = (event: SelectChangeEvent, cart: ICart) => {
     updateUserCart(cart._id, { ...cart, productSize: Number(event.target.value) });
     setSize(event.target.value);
@@ -45,52 +47,56 @@ const CartItems: React.FC<Props> = (props) => {
     }
   };
   return (
-    <div className="text-start">
-      <h3>Bag</h3>
-      <div className="d-flex justify-content-between align-items-center">
-        <img src={serverPublic + cart.productImage} alt="" width="150" height="150" className="image-fluid" />
-        <div className="w-50">
-          <h5>{cart.productName}</h5>
-          <div className="d-flex gap-3">
-            <FormControl size="small">
-              <InputLabel id="size">Size</InputLabel>
-              <Select
-                labelId="size"
-                id="demo-simple-select"
-                value={size}
-                defaultValue={cart.productSize.toString()}
-                label="Size"
-                onChange={(e) => handleChangeSize(e, cart)}
-              >
-                <MenuItem value={36}>36</MenuItem>
-                <MenuItem value={38}>38</MenuItem>
-                <MenuItem value={40}>40</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl size="small">
-              <InputLabel id="quantity">Quantity</InputLabel>
-              <Select
-                labelId="quantity"
-                id="demo-simple-select"
-                value={quantity}
-                defaultValue={cart.quantity.toString()}
-                label="Quantity"
-                onChange={handleChangeQuantity}
-              >
-                <MenuItem value={1}>1</MenuItem>
-                <MenuItem value={5}>5</MenuItem>
-                <MenuItem value={10}>10</MenuItem>
-              </Select>
-            </FormControl>
+    <React.Fragment>
+      {cart && (
+        <div className="text-start">
+          <h3>Bag</h3>
+          <div className="d-flex justify-content-between align-items-center">
+            <img src={serverPublic + cart.productImage} alt="" width="150" height="150" className="image-fluid" />
+            <div className="w-50">
+              <h5>{cart.productName}</h5>
+              <div className="d-flex gap-3">
+                <FormControl size="small">
+                  <InputLabel id="size">Size</InputLabel>
+                  <Select
+                    labelId="size"
+                    id="demo-simple-select"
+                    value={size}
+                    defaultValue={cart.productSize.toString()}
+                    label="Size"
+                    onChange={(e) => handleChangeSize(e, cart)}
+                  >
+                    <MenuItem value={36}>36</MenuItem>
+                    <MenuItem value={38}>38</MenuItem>
+                    <MenuItem value={40}>40</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl size="small">
+                  <InputLabel id="quantity">Quantity</InputLabel>
+                  <Select
+                    labelId="quantity"
+                    id="demo-simple-select"
+                    value={quantity}
+                    defaultValue={cart.quantity.toString()}
+                    label="Quantity"
+                    onChange={handleChangeQuantity}
+                  >
+                    <MenuItem value={1}>1</MenuItem>
+                    <MenuItem value={5}>5</MenuItem>
+                    <MenuItem value={10}>10</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
+            <p className="w-15">{`$${price}`}</p>
+            <button className="btn btn-outline-danger" onClick={() => handleRemoveCartItem(cart)}>
+              Remove Item
+            </button>
           </div>
+          <hr />
         </div>
-        <p className="w-15">{`$${price}`}</p>
-        <button className="btn btn-outline-danger" onClick={() => handleRemoveCartItem(cart)}>
-          Remove Item
-        </button>
-      </div>
-      <hr />
-    </div>
+      )}
+    </React.Fragment>
   );
 };
 
