@@ -32,7 +32,7 @@ const Cart = () => {
     [cart]
   );
 
-  const totalPrice = React.useMemo(() => cartPrice + shipFee, [cartPrice]);
+  const totalPrice = React.useMemo(() => cartPrice + shipFee, [cartPrice, shipFee]);
 
   const [advertising, setAdvertising] = useState(true);
   return (

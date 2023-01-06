@@ -49,16 +49,3 @@ export const updateBill = async (req, res) => {
     res.status(200).json('Bill updated!');
   } catch (error) {}
 };
-
-// Delete Cart
-// export const deleteCart = async (req, res) => {
-//   const id = req.params.id;
-
-//   try {
-//     const carts = await CartModel.findById(id);
-//     await carts.deleteOne();
-//     res.status(200).json('Cart deleted.');
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// };

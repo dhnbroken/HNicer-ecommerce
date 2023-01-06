@@ -108,11 +108,9 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
 
   const getBills = async () => {
     try {
-      if (userId) {
-        const res = await getAllBill();
-        setBills(res);
-        setLoading(true);
-      }
+      const res = await getAllBill();
+      setBills(res);
+      setLoading(true);
     } catch (err) {
       console.log(err);
     }

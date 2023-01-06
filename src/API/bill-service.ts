@@ -18,3 +18,10 @@ export const getAllBill = async () => {
     throw Error(String(error));
   }
 };
+
+export const updateBill = async (id: string, data: IBillData) => {
+  try {
+    const res = await axiosInstanceWithAction.put(`/bill/${id}`, data);
+    return res.data;
+  } catch (error) {}
+};

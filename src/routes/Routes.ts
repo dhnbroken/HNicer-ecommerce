@@ -10,6 +10,7 @@ import Register from 'src/pages/Register/Register';
 import AddSneaker from 'src/pages/AddSneaker/AddSneaker';
 import Checkout from 'src/pages/Checkout/Checkout';
 import Bill from 'src/pages/Bill/Bill';
+import BillDetails from 'src/pages/BillDetails/BillDetails';
 
 const publicRoutes = [
   { path: '/', component: Home },
@@ -23,7 +24,8 @@ const publicRoutes = [
   { path: '/register', component: Register },
   { path: '/sneaker/add', component: AddSneaker },
   { path: '/checkout', component: Checkout },
-  { path: '/bill', component: Bill }
+  { path: '/bill', component: Bill },
+  { path: '/bill/details', component: BillDetails }
 ];
 
 export { publicRoutes };

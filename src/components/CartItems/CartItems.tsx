@@ -51,8 +51,6 @@ const CartItems: React.FC<Props> = (props) => {
         <img src={serverPublic + cart.productImage} alt="" width="150" height="150" className="image-fluid" />
         <div className="w-50">
           <h5>{cart.productName}</h5>
-          <p>{cart.productTags}</p>
-          <p>White/Magic Ember/Black</p>
           <div className="d-flex gap-3">
             <FormControl size="small">
               <InputLabel id="size">Size</InputLabel>

@@ -64,6 +64,7 @@ export interface ICart {
 }
 
 export interface IBillData {
+  _id: string;
   firstname: string;
   lastname: string;
   addressLine1: string;
