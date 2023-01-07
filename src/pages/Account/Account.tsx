@@ -1,8 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Loading from 'src/components/Loading/Loading';
 import React, { useEffect, useContext } from 'react';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
 import './Account.scss';
 import { useNavigate } from 'react-router-dom';
+import { updateUserInformation } from 'src/API/user-service';
+import * as yup from 'yup';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { IUser } from 'src/store/interface';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+const schema = yup.object({
+  email: yup.string().email(),
+  phoneNumber: yup.string().max(10)
+});
 
 const Account = () => {
   const { userInfo, setLoading, loading, getUserInfo } = useContext(GlobalContextProvider);
@@ -12,12 +23,34 @@ const Account = () => {
     setLoading(false);
     getUserInfo();
   }, []);
-
   console.log(userInfo);
+
+  const updateUser = async (data: IUser) => {
+    try {
+      const res = await updateUserInformation(userInfo._id, data);
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const handleLogOut = () => {
     sessionStorage.clear();
     navigate('/login');
+    setLoading(false);
   };
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm<IUser>({
+    resolver: yupResolver(schema)
+  });
+
+  const formSubmitHandler: SubmitHandler<IUser> = (data: IUser) => {
+    updateUser(data);
+  };
+
   return (
     <React.Fragment>
       {loading ? (
@@ -53,12 +86,12 @@ const Account = () => {
             </div>
             <div className="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
               <div className="card h-100">
-                <div className="card-body">
+                <form className="card-body" onSubmit={handleSubmit(formSubmitHandler)}>
                   <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                       <h6 className="mb-2 text-primary">Personal Details</h6>
                     </div>
-                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                       <div className="form-group">
                         <label>Full Name</label>
                         <input
@@ -79,6 +112,7 @@ const Account = () => {
                           id="eMail"
                           defaultValue={userInfo.email}
                           placeholder="Enter email address"
+                          {...register('email')}
                         />
                       </div>
                     </div>
@@ -89,20 +123,9 @@ const Account = () => {
                           type="text"
                           className="form-control"
                           id="phone"
-                          defaultValue={userInfo.phone}
+                          defaultValue={userInfo.phoneNumber}
                           placeholder="Enter phone number"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                      <div className="form-group">
-                        <label>Website URL</label>
-                        <input
-                          type="url"
-                          className="form-control"
-                          id="website"
-                          defaultValue={userInfo.webSiteUrl}
-                          placeholder="Website url"
+                          {...register('phoneNumber')}
                         />
                       </div>
                     </div>
@@ -113,13 +136,27 @@ const Account = () => {
                     </div>
                     <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                       <div className="form-group">
-                        <label>Street</label>
+                        <label>Address Line 1</label>
                         <input
                           type="name"
                           className="form-control"
                           id="Street"
-                          defaultValue={userInfo.street}
-                          placeholder="Enter Street"
+                          defaultValue={userInfo.addressLine1}
+                          placeholder="Address Line 1"
+                          {...register('addressLine1')}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                      <div className="form-group">
+                        <label>Address Line 2</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="sTate"
+                          defaultValue={userInfo.addressLine2}
+                          placeholder="Address Line 2"
+                          {...register('addressLine2')}
                         />
                       </div>
                     </div>
@@ -132,30 +169,7 @@ const Account = () => {
                           id="ciTy"
                           defaultValue={userInfo.city}
                           placeholder="Enter City"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                      <div className="form-group">
-                        <label>State</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="sTate"
-                          defaultValue={userInfo.state}
-                          placeholder="Enter State"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                      <div className="form-group">
-                        <label>Zip Code</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="zIp"
-                          defaultValue={userInfo.zipCode}
-                          placeholder="Zip Code"
+                          {...register('city')}
                         />
                       </div>
                     </div>
@@ -166,13 +180,13 @@ const Account = () => {
                         <button type="button" id="submit" name="submit" className="btn btn-secondary me-3">
                           Cancel
                         </button>
-                        <button type="button" id="submit" name="submit" className="btn btn-primary">
+                        <button type="submit" id="submit" name="submit" className="btn btn-primary">
                           Update
                         </button>
                       </div>
                     </div>
                   </div>
-                </div>
+                </form>
               </div>
             </div>
           </div>

@@ -3,10 +3,10 @@ import CartModel from '../models/cartModel.js';
 // save user's cart
 export const saveCart = async (req, res) => {
   const newPlace = new CartModel(req.body);
-  const { productName } = req.body;
+  const { productName, userId } = req.body;
 
   try {
-    const oldCart = await CartModel.findOne({ productName });
+    const oldCart = await CartModel.findOne({ productName, userId });
     if (oldCart) return res.status(400).json({ message: 'This product has been already saved' });
 
     // if not

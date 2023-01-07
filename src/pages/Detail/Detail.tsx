@@ -7,6 +7,7 @@ import { ICart, ISneaker } from 'src/store/interface';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
 import { addToCart } from 'src/API/cart-service';
 import { removeShoes } from 'src/API/sneaker-service';
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
 const Detail = () => {
   const serverPublic = 'http://localhost:5000/images/';
@@ -17,6 +18,9 @@ const Detail = () => {
 
   const { cart, setCart, userInfo } = React.useContext(GlobalContextProvider);
   const userId = sessionStorage.getItem('userId');
+
+  const [size, setSize] = React.useState('36');
+  const [quantity, setQuantity] = React.useState('1');
 
   const addProductToCart = async (data: ICart) => {
     try {
@@ -30,6 +34,15 @@ const Detail = () => {
   const handleRemoveSneaker = async (sneaker: ISneaker) => {
     await removeShoes(sneaker._id).then(() => navigate('/sneaker'));
   };
+
+  const handleChangeSize = (event: SelectChangeEvent) => {
+    setSize(event.target.value);
+  };
+
+  const handleChangeQuantity = async (event: SelectChangeEvent) => {
+    setQuantity(event.target.value);
+  };
+
   const handleAddCart = (sneaker: ISneaker) => {
     if (userId) {
       const productData: ICart = {
@@ -39,10 +52,11 @@ const Detail = () => {
         productName: sneaker.name,
         productTags: 'Shoes',
         productPrice: sneaker.price,
-        productSize: 36,
-        quantity: 1
+        productSize: Number(size),
+        quantity: Number(quantity)
       };
       addProductToCart(productData);
+      navigate('/sneaker');
     }
   };
   return (
@@ -59,6 +73,38 @@ const Detail = () => {
               <h2>{sneaker.name}</h2>
               <h4>{`Price: ${sneaker.price}`}</h4>
               <p>{sneaker.description}</p>
+            </div>
+            <div>
+              <FormControl size="small">
+                <InputLabel id="size">Size</InputLabel>
+                <Select
+                  labelId="size"
+                  id="demo-simple-select"
+                  value={size}
+                  defaultValue={'36'}
+                  label="Size"
+                  onChange={(e) => handleChangeSize(e)}
+                >
+                  <MenuItem value={36}>36</MenuItem>
+                  <MenuItem value={38}>38</MenuItem>
+                  <MenuItem value={40}>40</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl className="ms-4" size="small">
+                <InputLabel id="quantity">Quantity</InputLabel>
+                <Select
+                  labelId="quantity"
+                  id="demo-simple-select"
+                  value={quantity}
+                  defaultValue={'1'}
+                  label="Quantity"
+                  onChange={handleChangeQuantity}
+                >
+                  <MenuItem value={1}>1</MenuItem>
+                  <MenuItem value={5}>5</MenuItem>
+                  <MenuItem value={10}>10</MenuItem>
+                </Select>
+              </FormControl>
             </div>
             <div>
               <button

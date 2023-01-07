@@ -10,11 +10,12 @@ import Client from 'src/components/Client/Client';
 import Loading from 'src/components/Loading/Loading';
 
 const Home = () => {
-  const { getSneakers, getClients, setIsViewAll, loading, setLoading } = useContext(GlobalContextProvider);
+  const { getSneakers, getClients, setIsViewAll, loading, setLoading, getUserInfo } = useContext(GlobalContextProvider);
 
   useEffect(() => {
     getSneakers();
     getClients();
+    getUserInfo();
     setIsViewAll(false);
     setLoading(false);
   }, []);

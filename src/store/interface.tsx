@@ -36,19 +36,17 @@ export interface IClient {
 }
 
 export interface IUser {
-  _id: number;
+  _id: string;
   firstname: string;
   lastname: string;
   isAdmin: boolean;
   avatar?: string;
   email?: string;
-  phone?: string;
-  street?: string;
+  phoneNumber?: string;
+  addressLine1?: string;
+  addressLine2?: string;
   city?: string;
-  state?: string;
-  zipCode?: string;
   description?: string;
-  webSiteUrl?: string;
 }
 
 export interface ICart {

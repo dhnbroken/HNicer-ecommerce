@@ -83,7 +83,7 @@ const Login = () => {
                     type="text"
                     id="form3Example3"
                     className="form-control form-control-lg"
-                    placeholder="Email"
+                    placeholder="Username"
                     {...register('username')}
                   />
                 </div>

@@ -9,21 +9,25 @@ import { toast } from 'react-toastify';
 import { toastMsg } from 'src/store/toast';
 
 import './Cart.scss';
+import { ICart } from 'src/store/interface';
 
 const Cart = () => {
-  const { loading, getSneakers, sneakers, cart, getUserCart, setLoading } = useContext(GlobalContextProvider);
+  const { loading, getSneakers, sneakers, cart, getUserCart, setLoading, removeCartItem, setCart } =
+    useContext(GlobalContextProvider);
   const [shipFee, setShipFee] = useState(0);
+  const [change, setChange] = React.useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(false);
     getSneakers();
-    cart.length && setShipFee(10);
   }, []);
 
   useEffect(() => {
     getUserCart();
-  }, []);
+    console.log(change);
+  }, [change]);
 
   const cartPrice = React.useMemo(
     () =>
@@ -34,7 +38,22 @@ const Cart = () => {
     [cart]
   );
 
-  const totalPrice = React.useMemo(() => cartPrice + shipFee, [cartPrice, shipFee]);
+  const handleRemoveCartItem = (cartItem: ICart, index: number) => {
+    if (cartItem._id) {
+      removeCartItem(cartItem._id);
+    }
+  };
+
+  const totalPrice = React.useMemo(() => {
+    return cartPrice + shipFee;
+  }, [cartPrice, shipFee]);
+
+  useEffect(() => {
+    cart.length ? setShipFee(10) : setShipFee(0);
+    if (totalPrice > 500) {
+      setShipFee(0);
+    }
+  }, [totalPrice]);
 
   const [advertising, setAdvertising] = useState(true);
   return (
@@ -49,15 +68,25 @@ const Cart = () => {
                 <div className="bg-custom d-flex justify-content-between align-items-center py-1 px-3 mb-3">
                   <div className="text-start">
                     <p className="mb-1">FREE DELIVERY</p>
-                    <p className="mb-1">Applies to orders of 5.000.000₫ or more. View details.</p>
+                    <p className="mb-1">Applies to orders of $500 or more. View details.</p>
                   </div>
                   <button className="btn-close float-end" onClick={() => setAdvertising(false)}></button>
                 </div>
               ) : null}
+              <h3>Bags</h3>
               {cart.length ? (
                 cart.map(
-                  (cart, index) =>
-                    typeof cart !== 'undefined' && <CartItems key={index} getUserCart={getUserCart} cart={cart} />
+                  (cartItem, index) =>
+                    typeof cartItem !== 'undefined' && (
+                      <CartItems
+                        key={index}
+                        cartItem={cartItem}
+                        handleRemoveCartItem={handleRemoveCartItem}
+                        index={index}
+                        change={change}
+                        setChange={setChange}
+                      />
+                    )
                 )
               ) : (
                 <div>Your cart is empty</div>

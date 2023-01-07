@@ -100,7 +100,10 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
 
   const removeCartItem = (id: string) => {
     try {
-      deleteCart(id);
+      deleteCart(id).then(() => {
+        setLoading(false);
+        getUserCart();
+      });
     } catch (err) {
       console.log(err);
     }

@@ -22,18 +22,16 @@ const UserSchema = mongoose.Schema(
       type: Boolean,
       default: false
     },
-    emailAddress: {
+    email: {
       type: String
     },
     avatarPath: String,
     phoneNumber: String,
-    birthDate: String,
-    location: String,
-    organization: String,
+    addressLine1: String,
+    addressLine2: String,
+    city: String,
     relationship: String,
-    country: String,
-    followers: [],
-    following: []
+    country: String
   },
   { timestamps: true }
 );

@@ -54,9 +54,13 @@ const BillDetails: React.FC = () => {
                 <h5 className="text-end">{`$${bill.totalPrice}`}</h5>
               </div>
               <hr />
-              <button className="w-100 btn btn-dark rounded-pill py-3 px-4" onClick={() => handleConfirm(bill)}>
-                Confirm
-              </button>
+              {bill.status !== 'Confirmed' ? (
+                <button className="w-100 btn btn-dark rounded-pill py-3 px-4" onClick={() => handleConfirm(bill)}>
+                  Confirm
+                </button>
+              ) : (
+                <h5 className="text-end text-danger">Confirmed</h5>
+              )}
             </div>
           </Grid>
         </Grid>

@@ -23,7 +23,7 @@ export const initSneaker: ISneaker = {
 };
 
 export const initUser: IUser = {
-  _id: 0,
+  _id: '',
   isAdmin: false,
   firstname: '',
   lastname: ''
