@@ -16,7 +16,7 @@ const Detail = () => {
   const navigate = useNavigate();
   const { sneaker } = location.state;
 
-  const { cart, setCart, userInfo } = React.useContext(GlobalContextProvider);
+  const { cart, setCart, userInfo, setIsEdit } = React.useContext(GlobalContextProvider);
   const userId = sessionStorage.getItem('userId');
 
   const [size, setSize] = React.useState('36');
@@ -58,6 +58,11 @@ const Detail = () => {
       addProductToCart(productData);
       navigate('/sneaker');
     }
+  };
+
+  const handleEditShoes = () => {
+    setIsEdit(true);
+    navigate('/sneaker/add', { state: { sneaker } });
   };
   return (
     <section className="contact_section my-4 p-4">
@@ -114,6 +119,11 @@ const Detail = () => {
                 {userInfo.isAdmin ? 'Remove Sneaker' : 'Add to Cart'}
               </button>
             </div>
+            {userInfo.isAdmin && (
+              <button className="btn btn-outline-danger" onClick={() => handleEditShoes()}>
+                Edit
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -58,3 +58,13 @@ export const deleteShoes = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+export const updateShoes = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const shoes = await ShoesModel.findById(id);
+    await shoes.updateOne({ $set: req.body });
+    res.status(200).json('Shoes updated!');
+  } catch (error) {}
+};

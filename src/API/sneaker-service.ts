@@ -29,6 +29,15 @@ export const removeShoes = async (id: string) => {
   return await axiosInstanceWithAction.delete(`/shoes/${id}`);
 };
 
+export const updateShoes = async (id: string | undefined, data: ISneakerData) => {
+  try {
+    const res = await axiosInstanceWithAction.put(`/shoes/${id}`, data);
+    return res.data;
+  } catch (error) {
+    throw Error(String(error));
+  }
+};
+
 // export const getClient = async () => {
 //   try {
 //     const res = await axiosInstance.get('client');

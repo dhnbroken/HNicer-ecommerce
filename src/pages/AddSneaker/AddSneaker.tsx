@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
 
 import './AddSneaker.scss';
-import { addShoes } from 'src/API/sneaker-service';
+import { addShoes, updateShoes } from 'src/API/sneaker-service';
 import { ISneakerData } from 'src/store/interface';
 import { axiosInstanceWithAction } from 'src/API/axios';
+import { GlobalContextProvider } from 'src/Context/GlobalContext';
 
 const schema = yup
   .object({
@@ -21,8 +22,11 @@ const schema = yup
 
 const AddSneaker = () => {
   const navigate: NavigateFunction = useNavigate();
+  const { isEdit, setIsEdit } = useContext(GlobalContextProvider);
   const [fileChosen, setFileChosen] = useState('');
   const [sneakerImage, setSneakerImage] = useState<any>(null);
+  const location = useLocation();
+  const { sneaker } = location.state;
 
   const {
     handleSubmit,
@@ -39,26 +43,68 @@ const AddSneaker = () => {
       setSneakerImage(img);
     }
   };
+
+  const updateSneaker = async (data: ISneakerData) => {
+    try {
+      const res = await updateShoes(sneaker._id, data);
+      setIsEdit(false);
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const formSubmitHandler: SubmitHandler<ISneakerData> = (data: ISneakerData) => {
-    if (sneakerImage) {
-      const imageData = new FormData();
-      const fileName = Date.now() + sneakerImage.name;
-      imageData.append('name', fileName);
-      imageData.append('file', sneakerImage);
-      try {
-        axiosInstanceWithAction.post('/upload/', imageData);
-      } catch (err) {
-        console.log(err);
+    if (!isEdit) {
+      if (sneakerImage) {
+        const imageData = new FormData();
+        const fileName = Date.now() + sneakerImage.name;
+        imageData.append('name', fileName);
+        imageData.append('file', sneakerImage);
+        try {
+          axiosInstanceWithAction.post('/upload/', imageData);
+        } catch (err) {
+          console.log(err);
+        }
+        console.log(fileName);
+        if (!isEdit) {
+          addShoes({
+            name: data.name,
+            price: data.price,
+            image: fileName,
+            description: data.description
+          }).then(() => {
+            navigate('/sneaker');
+          });
+        }
       }
-      console.log(fileName);
-      addShoes({
-        name: data.name,
-        price: data.price,
-        image: fileName,
-        description: data.description
-      }).then(() => {
-        navigate('/sneaker');
-      });
+    } else {
+      if (sneakerImage) {
+        const imageData = new FormData();
+        const fileName = Date.now() + sneakerImage.name;
+        imageData.append('name', fileName);
+        imageData.append('file', sneakerImage);
+        try {
+          axiosInstanceWithAction.post('/upload/', imageData);
+        } catch (err) {
+          console.log(err);
+        }
+        const sneakerData = {
+          name: data.name,
+          price: data.price,
+          image: fileName,
+          description: data.description
+        };
+        updateSneaker(sneakerData);
+      } else {
+        const sneakerData = {
+          name: data.name,
+          price: data.price,
+          image: sneaker.image,
+          description: data.description
+        };
+        updateSneaker(sneakerData);
+      }
+      navigate('/sneaker');
     }
   };
   return (
@@ -67,7 +113,11 @@ const AddSneaker = () => {
         <div className="container-fluid h-custom">
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-md-8 col-lg-6 col-xl-5 text-center">
-              <img src={fileChosen} className="img-fluid" width="300" />
+              <img
+                src={`http://localhost:5000/images/${sneaker.image}` || fileChosen}
+                className="img-fluid"
+                width="300"
+              />
             </div>
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
               <form action="" onSubmit={handleSubmit(formSubmitHandler)} encType="multipart/form-data">
@@ -80,6 +130,7 @@ const AddSneaker = () => {
                     type="text"
                     id="form3Example3"
                     className="form-control form-control-lg"
+                    defaultValue={sneaker.name}
                     placeholder="Name"
                     {...register('name')}
                   />
@@ -91,6 +142,7 @@ const AddSneaker = () => {
                     id="form3Example4"
                     className="form-control form-control-lg"
                     placeholder="Price ($)"
+                    defaultValue={sneaker.price}
                     {...register('price')}
                   />
                 </div>
@@ -112,12 +164,13 @@ const AddSneaker = () => {
                     id="form3Example4"
                     className="form-control form-control-lg"
                     placeholder="Description"
+                    defaultValue={sneaker.description}
                     {...register('description')}
                   />
                 </div>
 
                 <button type="submit" className="btn btn-info btn-lg w-100">
-                  Add
+                  {isEdit ? 'Edit' : 'Add'}
                 </button>
               </form>
             </div>
