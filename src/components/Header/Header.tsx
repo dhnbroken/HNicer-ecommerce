@@ -14,7 +14,9 @@ const Header: React.FC = () => {
       <div className="container-fluid">
         <nav className="navbar navbar-expand-lg custom_nav-container ">
           <Link className="navbar-brand" to="/">
-            <span>HNicer</span>
+            <span>
+              <img className="ms-3" src="http://localhost:5000/images/HNicer.png" width={60} alt="" />
+            </span>
           </Link>
           <button
             className="navbar-toggler"
