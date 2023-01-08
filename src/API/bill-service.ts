@@ -25,3 +25,7 @@ export const updateBill = async (id: string, data: IBillData) => {
     return res.data;
   } catch (error) {}
 };
+
+export const deleteBill = async (id: string) => {
+  await axiosInstanceWithAction.delete(`/bill/${id}`);
+};

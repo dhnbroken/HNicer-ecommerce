@@ -49,3 +49,14 @@ export const updateBill = async (req, res) => {
     res.status(200).json('Bill updated!');
   } catch (error) {}
 };
+
+// delete Bill
+export const deleteBill = async (req, res) => {
+  const id = req.params.id;
+  try {
+    await BillModel.findByIdAndDelete(id);
+    res.status(200).json('Shoes Deleted Successfully!');
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
