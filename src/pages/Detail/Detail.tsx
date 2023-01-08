@@ -6,6 +6,8 @@ import { addToCart } from 'src/API/cart-service';
 import { removeShoes } from 'src/API/sneaker-service';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
+import './Detail.scss';
+
 const Detail = () => {
   const serverPublic = 'http://localhost:5000/images/';
 
@@ -72,7 +74,7 @@ const Detail = () => {
           <div className="col-md-6">
             <div>
               <h2>{sneaker.name}</h2>
-              <h4>{`Price: ${sneaker.price}`}</h4>
+              <h4>{`Price: $${sneaker.price}`}</h4>
               <p>{sneaker.description}</p>
             </div>
             <div>
@@ -109,17 +111,19 @@ const Detail = () => {
             </div>
             <div>
               <button
-                className="btn btn-outline-danger"
+                className="btn btn-outline-danger w-100 w-lg-50"
                 onClick={() => (userInfo.isAdmin ? handleRemoveSneaker(sneaker) : handleAddCart(sneaker))}
               >
                 {userInfo.isAdmin ? 'Remove Sneaker' : 'Add to Cart'}
               </button>
             </div>
-            {userInfo.isAdmin && (
-              <button className="btn btn-outline-danger" onClick={() => handleEditShoes()}>
-                Edit
-              </button>
-            )}
+            <div>
+              {userInfo.isAdmin && (
+                <button className="btn btn-outline-danger w-100 w-lg-50" onClick={() => handleEditShoes()}>
+                  Edit
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

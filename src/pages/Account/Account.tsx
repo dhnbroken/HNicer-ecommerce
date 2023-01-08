@@ -51,7 +51,7 @@ const Account = () => {
       {loading ? (
         <div className="container my-5">
           <div className="row gutters">
-            <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+            <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 mb-3">
               <div className="card h-100">
                 <div className="card-body">
                   <div className="account-settings">
@@ -86,7 +86,7 @@ const Account = () => {
                 </div>
               </div>
             </div>
-            <div className="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+            <div className="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 mb-3">
               <div className="card h-100">
                 <form className="card-body" onSubmit={handleSubmit(formSubmitHandler)}>
                   <div className="row gutters">

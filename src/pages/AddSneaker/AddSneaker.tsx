@@ -7,7 +7,7 @@ import { NavigateFunction, useNavigate } from 'react-router-dom';
 import './AddSneaker.scss';
 import { addShoes, updateShoes } from 'src/API/sneaker-service';
 import { ISneakerData } from 'src/store/interface';
-import { axiosInstanceWithAction } from 'src/API/axios';
+import { axiosInstance } from 'src/API/axios';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
 
 const schema = yup
@@ -22,7 +22,7 @@ const AddSneaker = () => {
   const navigate: NavigateFunction = useNavigate();
   const { isEdit, setIsEdit, sneakerInfo } = useContext(GlobalContextProvider);
   const [fileChosen, setFileChosen] = useState('');
-  const [sneakerImage, setSneakerImage] = useState<any>(null);
+  const [sneakerImage, setSneakerImage] = useState<any>('dfshoes.png');
 
   const {
     handleSubmit,
@@ -55,7 +55,7 @@ const AddSneaker = () => {
         imageData.append('name', fileName);
         imageData.append('file', sneakerImage);
         try {
-          axiosInstanceWithAction.post('/upload/', imageData);
+          axiosInstance.post('/upload/', imageData);
         } catch (err) {}
         if (!isEdit) {
           addShoes({
@@ -75,7 +75,7 @@ const AddSneaker = () => {
         imageData.append('name', fileName);
         imageData.append('file', sneakerImage);
         try {
-          axiosInstanceWithAction.post('/upload/', imageData);
+          axiosInstance.post('/upload/', imageData);
         } catch (err) {}
         const sneakerData = {
           name: data.name,

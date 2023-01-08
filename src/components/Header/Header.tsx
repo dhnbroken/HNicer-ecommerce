@@ -8,7 +8,6 @@ import './header.scss';
 const Header: React.FC = () => {
   const [active, setActive] = useState('Home');
   const [isShow, setIsShow] = useState(false);
-  console.log(isShow);
   return (
     <header className="header_section bg-light">
       <div className="container-fluid">

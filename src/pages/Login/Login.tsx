@@ -92,7 +92,7 @@ const Login = () => {
                   <FontAwesomeIcon
                     icon={hide ? faEyeSlash : faEye}
                     size="lg"
-                    className="icon-btn position-absolute mt-3 ml-490"
+                    className="icon-btn position-absolute mt-3 ml-490 d-none d-lg-block"
                     onClick={() => setHide(!hide)}
                   />
                   <input

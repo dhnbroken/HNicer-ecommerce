@@ -86,7 +86,7 @@ const Shop: React.FC = () => {
             )}
             <div className="row">
               {sneakers.length && !isViewAll
-                ? sneakers.splice(0, 4).map((sneaker, index) => (
+                ? sneakers.slice(0, 4).map((sneaker, index) => (
                     <div className="col-md-6 col-xl-3" key={index}>
                       <ItemList sneaker={sneaker} />
                     </div>

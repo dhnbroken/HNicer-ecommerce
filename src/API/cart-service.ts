@@ -30,7 +30,7 @@ export const updateCart = async (id: string | undefined, data: ICart) => {
 
 export const deleteCart = async (id: string) => {
   try {
-    await axiosInstanceWithAction.delete(`/cart/${id}`);
+    await axiosInstance.delete(`/cart/${id}`);
   } catch (err) {
     throw Error(String(err));
   }

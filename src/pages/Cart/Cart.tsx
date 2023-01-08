@@ -61,7 +61,7 @@ const Cart = () => {
       ) : (
         <div className="my-5 container text-center">
           <div className="row">
-            <div className="col-lg-8 col-sm-12">
+            <div className="col-lg-8 col-sm-12 col-12">
               {advertising ? (
                 <div className="bg-custom d-flex justify-content-between align-items-center py-1 px-3 mb-3">
                   <div className="text-start">
@@ -90,7 +90,7 @@ const Cart = () => {
                 <div>Your cart is empty</div>
               )}
             </div>
-            <div className="col-lg-4 col-sm-12">
+            <div className="col-lg-4 col-sm-12 col-12">
               <div className="text-start">
                 <h3>Summary</h3>
                 <div className="w-100 d-flex justify-content-between">
@@ -120,7 +120,7 @@ const Cart = () => {
               </div>
             </div>
 
-            <div className="text-start mt-5 d-sm-none d-md-block">
+            <div className="text-start mt-5 d-none d-md-block">
               <h3>You Might Also Like</h3>
               <div className="overflow-auto text-nowrap d-md-flex flex-wrap d-lg-block">
                 {!loading ? (
