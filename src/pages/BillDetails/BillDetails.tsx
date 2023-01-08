@@ -64,7 +64,7 @@ const BillDetails: React.FC = () => {
                     Confirm
                   </button>
                   <button className="w-100 btn btn-danger rounded-pill py-3 px-4 mt-2" onClick={() => handleRemove()}>
-                    Rejected
+                    Reject
                   </button>
                 </React.Fragment>
               ) : (
