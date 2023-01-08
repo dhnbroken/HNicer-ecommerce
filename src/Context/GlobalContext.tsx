@@ -39,6 +39,8 @@ export interface GlobalContext {
   getBills: () => void;
   isEdit: boolean;
   setIsEdit: (isEdit: boolean) => void;
+  sneakerInfo: ISneaker;
+  setSneakerInfo: (sneakerInfo: ISneaker) => void;
 }
 
 export const GlobalContextProvider = createContext<GlobalContext>(TodoContext);
@@ -49,6 +51,13 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
   const [cart, setCart] = useState<ICart[]>([]);
   const [bills, setBills] = useState<IBillData[]>([]);
 
+  const [sneakerInfo, setSneakerInfo] = useState<ISneaker>({
+    _id: '',
+    name: '',
+    price: 0,
+    image: '',
+    description: ''
+  });
   const [isViewAll, setIsViewAll] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
@@ -149,7 +158,9 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
     bills,
     setBills,
     isEdit,
-    setIsEdit
+    setIsEdit,
+    sneakerInfo,
+    setSneakerInfo
   };
   return <GlobalContextProvider.Provider value={valueContext}>{children}</GlobalContextProvider.Provider>;
 };

@@ -41,5 +41,13 @@ export const TodoContext = {
   setBills: () => {},
   getBills: () => {},
   isEdit: false,
-  setIsEdit: () => {}
+  setIsEdit: () => {},
+  sneakerInfo: {
+    _id: '',
+    name: '',
+    price: 0,
+    image: '',
+    description: ''
+  },
+  setSneakerInfo: () => {}
 };

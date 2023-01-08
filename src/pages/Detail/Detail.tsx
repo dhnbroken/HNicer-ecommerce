@@ -16,7 +16,7 @@ const Detail = () => {
   const navigate = useNavigate();
   const { sneaker } = location.state;
 
-  const { cart, setCart, userInfo, setIsEdit } = React.useContext(GlobalContextProvider);
+  const { cart, setCart, userInfo, setIsEdit, setSneakerInfo } = React.useContext(GlobalContextProvider);
   const userId = sessionStorage.getItem('userId');
 
   const [size, setSize] = React.useState('36');
@@ -62,7 +62,8 @@ const Detail = () => {
 
   const handleEditShoes = () => {
     setIsEdit(true);
-    navigate('/sneaker/add', { state: { sneaker } });
+    setSneakerInfo(sneaker);
+    navigate('/sneaker/add');
   };
   return (
     <section className="contact_section my-4 p-4">

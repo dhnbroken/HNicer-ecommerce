@@ -22,11 +22,9 @@ const schema = yup
 
 const AddSneaker = () => {
   const navigate: NavigateFunction = useNavigate();
-  const { isEdit, setIsEdit } = useContext(GlobalContextProvider);
+  const { isEdit, setIsEdit, sneakerInfo } = useContext(GlobalContextProvider);
   const [fileChosen, setFileChosen] = useState('');
   const [sneakerImage, setSneakerImage] = useState<any>(null);
-  const location = useLocation();
-  const { sneaker } = location.state;
 
   const {
     handleSubmit,
@@ -46,7 +44,7 @@ const AddSneaker = () => {
 
   const updateSneaker = async (data: ISneakerData) => {
     try {
-      const res = await updateShoes(sneaker._id, data);
+      const res = await updateShoes(sneakerInfo._id, data);
       setIsEdit(false);
       return res;
     } catch (err) {
@@ -99,7 +97,7 @@ const AddSneaker = () => {
         const sneakerData = {
           name: data.name,
           price: data.price,
-          image: sneaker.image,
+          image: sneakerInfo.image,
           description: data.description
         };
         updateSneaker(sneakerData);
@@ -114,7 +112,7 @@ const AddSneaker = () => {
           <div className="row d-flex justify-content-center align-items-center h-100">
             <div className="col-md-8 col-lg-6 col-xl-5 text-center">
               <img
-                src={`http://localhost:5000/images/${sneaker.image}` || fileChosen}
+                src={`http://localhost:5000/images/${sneakerInfo.image}` || fileChosen}
                 className="img-fluid"
                 width="300"
               />
@@ -130,7 +128,7 @@ const AddSneaker = () => {
                     type="text"
                     id="form3Example3"
                     className="form-control form-control-lg"
-                    defaultValue={sneaker.name}
+                    defaultValue={sneakerInfo.name}
                     placeholder="Name"
                     {...register('name')}
                   />
@@ -142,7 +140,7 @@ const AddSneaker = () => {
                     id="form3Example4"
                     className="form-control form-control-lg"
                     placeholder="Price ($)"
-                    defaultValue={sneaker.price}
+                    defaultValue={sneakerInfo.price}
                     {...register('price')}
                   />
                 </div>
@@ -164,7 +162,7 @@ const AddSneaker = () => {
                     id="form3Example4"
                     className="form-control form-control-lg"
                     placeholder="Description"
-                    defaultValue={sneaker.description}
+                    defaultValue={sneakerInfo.description}
                     {...register('description')}
                   />
                 </div>
