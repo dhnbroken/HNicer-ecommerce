@@ -105,9 +105,7 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
         setCart(res);
         setLoading(true);
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const removeCartItem = (id: string) => {
@@ -116,9 +114,7 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
         setLoading(false);
         getUserCart();
       });
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const getBills = async () => {
@@ -126,9 +122,7 @@ export const GlobalStoreContext = ({ children }: PropsProvider) => {
       const res = await getAllBill();
       setBills(res);
       setLoading(true);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const valueContext = {

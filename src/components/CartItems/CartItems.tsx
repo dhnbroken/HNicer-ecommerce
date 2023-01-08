@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ICart } from 'src/store/interface';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import React, { useContext, useEffect } from 'react';
-import { deleteCart, updateCart } from 'src/API/cart-service';
+import { updateCart } from 'src/API/cart-service';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
 
 interface Props {
@@ -25,9 +24,7 @@ const CartItems: React.FC<Props> = (props) => {
     try {
       await updateCart(id, data);
       setLoading(true);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const handleChangeSize = async (event: SelectChangeEvent, cart: ICart) => {

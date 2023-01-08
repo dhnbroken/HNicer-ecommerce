@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable indent */
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
 import { Link } from 'react-router-dom';
 import ItemList from '../Item/ItemList';

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Loading from 'src/components/Loading/Loading';
 import React, { useEffect, useContext } from 'react';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
@@ -23,15 +22,12 @@ const Account = () => {
     setLoading(false);
     getUserInfo();
   }, []);
-  console.log(userInfo);
 
   const updateUser = async (data: IUser) => {
     try {
       const res = await updateUserInformation(userInfo._id, data);
       return res;
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
   const handleLogOut = () => {
     sessionStorage.clear();
@@ -39,16 +35,15 @@ const Account = () => {
     setLoading(false);
   };
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors }
-  } = useForm<IUser>({
+  const { handleSubmit, register } = useForm<IUser>({
     resolver: yupResolver(schema)
   });
 
   const formSubmitHandler: SubmitHandler<IUser> = (data: IUser) => {
-    updateUser(data);
+    updateUser(data).then(() => {
+      setLoading(false);
+      getUserInfo();
+    });
   };
 
   return (
@@ -68,10 +63,12 @@ const Account = () => {
                       <h6 className="user-email">{userInfo.email}</h6>
                       {userInfo.isAdmin && <h6 className="text-danger">Role: Admin</h6>}
                     </div>
-                    <div className="about">
-                      <h5>About</h5>
-                      <p>{!userInfo.isAdmin ? userInfo.description : "I'm Admin of this page"}</p>
-                    </div>
+                    {userInfo.isAdmin && (
+                      <div className="about">
+                        <h5>About</h5>
+                        <p>I am Admin of this page</p>
+                      </div>
+                    )}
                   </div>
                   {userInfo.isAdmin && (
                     <React.Fragment>

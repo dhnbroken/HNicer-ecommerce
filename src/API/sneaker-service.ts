@@ -20,9 +20,7 @@ export const getShoes = async (id: number) => {
 };
 
 export const addShoes = async ({ name, price, image, description }: ISneakerData) => {
-  return await axiosInstanceWithAction
-    .post('/shoes/', { name, price, image, description })
-    .then((res) => console.log(res));
+  return await axiosInstanceWithAction.post('/shoes/', { name, price, image, description });
 };
 
 export const removeShoes = async (id: string) => {

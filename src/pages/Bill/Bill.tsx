@@ -12,7 +12,6 @@ const Bill = () => {
     setLoading(false);
     getBills();
   }, []);
-  console.log(bills);
   return (
     <React.Fragment>
       {!loading ? (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { publicRoutes } from './Routes';
+import { adminRoutes, publicRoutes } from './Routes';
 import DefaultLayout from 'src/Layout/DefaultLayout/DefaultLayout';
 import Login from 'src/pages/Login/Login';
 import Home from 'src/pages/Home/Home';
@@ -15,7 +15,7 @@ const getRegister = () => {
   return sessionStorage.getItem('isRegister');
 };
 const MainRoutes = () => {
-  const { getUserInfo } = React.useContext(GlobalContextProvider);
+  const { getUserInfo, userInfo } = React.useContext(GlobalContextProvider);
 
   React.useEffect(() => {
     getUserInfo();
@@ -44,6 +44,21 @@ const MainRoutes = () => {
             </DefaultLayout>
           }
         />
+        {userInfo.isAdmin &&
+          adminRoutes.map((route, index) => {
+            const Page = route.component;
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <DefaultLayout>
+                    {getRegister() ? <Register /> : getAccessToken() ? <Page /> : <Login />}
+                  </DefaultLayout>
+                }
+              ></Route>
+            );
+          })}
       </Routes>
     </React.Fragment>
   );

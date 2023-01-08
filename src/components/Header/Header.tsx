@@ -1,10 +1,14 @@
-import React from 'react';
-import 'src/assets/css/styles.scss';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartPlus, faUser, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faCartPlus, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
+import 'src/assets/css/styles.scss';
+import './header.scss';
 const Header: React.FC = () => {
+  const [active, setActive] = useState('Home');
+  const [isShow, setIsShow] = useState(false);
+  console.log(isShow);
   return (
     <header className="header_section bg-light">
       <div className="container-fluid">
@@ -20,42 +24,80 @@ const Header: React.FC = () => {
             aria-controls="navbarSupportedContent"
             aria-expanded="false"
             aria-label="Toggle navigation"
+            onClick={() => setIsShow(!isShow)}
           >
             <span className=""></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div
+            style={{ display: isShow ? 'block' : 'none' }}
+            className="collapse navbar-collapse"
+            id="navbarSupportedContent"
+          >
             <ul className="navbar-nav">
-              <li className="nav-item active">
+              <li
+                className={`nav-item ${active === 'Home' ? 'active' : ''}`}
+                onClick={() => {
+                  setIsShow(!isShow);
+                  setActive('Home');
+                }}
+              >
                 <Link className="nav-link" to="/">
                   Home<span className="sr-only">(current)</span>
                 </Link>
               </li>
-              <li className="nav-item">
+              <li
+                className={`nav-item ${active === 'Sneaker' ? 'active' : ''}`}
+                onClick={() => {
+                  setIsShow(!isShow);
+                  setActive('Sneaker');
+                }}
+              >
                 <Link className="nav-link" to="/sneaker">
                   Sneaker
                 </Link>
               </li>
-              <li className="nav-item">
+              <li
+                className={`nav-item ${active === 'About' ? 'active' : ''}`}
+                onClick={() => {
+                  setIsShow(!isShow);
+                  setActive('About');
+                }}
+              >
                 <Link className="nav-link" to="/about">
                   {' '}
                   About{' '}
                 </Link>
               </li>
-              <li className="nav-item">
+              <li
+                className={`nav-item ${active === 'Contact' ? 'active' : ''}`}
+                onClick={() => {
+                  setIsShow(!isShow);
+                  setActive('Contact');
+                }}
+              >
                 <Link className="nav-link" to="/contact">
                   Contact Us
                 </Link>
               </li>
             </ul>
-            <div className="user_option-box">
-              <Link to="/account">
+            <div className="user_option-box d-md-block text-md-center">
+              <Link
+                to="/account"
+                onClick={() => {
+                  setActive('');
+                  setIsShow(!isShow);
+                }}
+              >
                 <FontAwesomeIcon icon={faUser} aria-hidden="true" />
               </Link>
-              <Link to="/cart">
+              <Link
+                to="/cart"
+                onClick={() => {
+                  setActive('');
+                  setIsShow(!isShow);
+                }}
+              >
                 <FontAwesomeIcon icon={faCartPlus} aria-hidden="true" />
-              </Link>
-              <Link to="">
-                <FontAwesomeIcon icon={faSearch} aria-hidden="true" />
               </Link>
             </div>
           </div>

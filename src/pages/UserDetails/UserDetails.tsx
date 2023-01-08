@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
@@ -8,18 +7,14 @@ import { deleteUserInformation } from 'src/API/user-service';
 const BillDetails: React.FC = () => {
   const location = useLocation();
   const { user } = location.state;
-  const { loading, userInfo } = useContext(GlobalContextProvider);
+  const { loading } = useContext(GlobalContextProvider);
   const navigate = useNavigate();
-
-  console.log(userInfo);
 
   const serverPublic = 'http://localhost:5000/images/';
   const deleteUser = async () => {
     try {
       await deleteUserInformation(user._id);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const handleRemoveUser = () => {

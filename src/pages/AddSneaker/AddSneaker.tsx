@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useContext, useState } from 'react';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { NavigateFunction, useLocation, useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import './AddSneaker.scss';
 import { addShoes, updateShoes } from 'src/API/sneaker-service';
@@ -13,10 +12,9 @@ import { GlobalContextProvider } from 'src/Context/GlobalContext';
 
 const schema = yup
   .object({
-    name: yup.string().required(),
-    price: yup.number().required(),
-    image: yup.string().required(),
-    description: yup.string().required()
+    name: yup.string().required('Please input name of product'),
+    price: yup.number().min(1).required('Price must be larger than 0'),
+    description: yup.string().required('Please describe the product description')
   })
   .required();
 
@@ -47,9 +45,7 @@ const AddSneaker = () => {
       const res = await updateShoes(sneakerInfo._id, data);
       setIsEdit(false);
       return res;
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
   const formSubmitHandler: SubmitHandler<ISneakerData> = (data: ISneakerData) => {
     if (!isEdit) {
@@ -60,10 +56,7 @@ const AddSneaker = () => {
         imageData.append('file', sneakerImage);
         try {
           axiosInstanceWithAction.post('/upload/', imageData);
-        } catch (err) {
-          console.log(err);
-        }
-        console.log(fileName);
+        } catch (err) {}
         if (!isEdit) {
           addShoes({
             name: data.name,
@@ -83,9 +76,7 @@ const AddSneaker = () => {
         imageData.append('file', sneakerImage);
         try {
           axiosInstanceWithAction.post('/upload/', imageData);
-        } catch (err) {
-          console.log(err);
-        }
+        } catch (err) {}
         const sneakerData = {
           name: data.name,
           price: data.price,
@@ -132,6 +123,7 @@ const AddSneaker = () => {
                     placeholder="Name"
                     {...register('name')}
                   />
+                  <p className="text-danger">{errors.name?.message}</p>
                 </div>
                 <div className="form-outline mb-3">
                   <input
@@ -143,6 +135,7 @@ const AddSneaker = () => {
                     defaultValue={sneakerInfo.price}
                     {...register('price')}
                   />
+                  <p className="text-danger">{errors.price?.message}</p>
                 </div>
                 <div className="form-outline mb-3">
                   <input
@@ -154,6 +147,7 @@ const AddSneaker = () => {
                     {...register('image')}
                     onChange={onImageChange}
                   />
+                  <p className="text-danger">{!sneakerImage && 'Please choose Image'}</p>
                 </div>
 
                 <div className="form-outline mb-3">
@@ -165,6 +159,7 @@ const AddSneaker = () => {
                     defaultValue={sneakerInfo.description}
                     {...register('description')}
                   />
+                  <p className="text-danger">{errors.description?.message}</p>
                 </div>
 
                 <button type="submit" className="btn btn-info btn-lg w-100">

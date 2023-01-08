@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { faFacebook, faLinkedin, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
@@ -86,6 +85,7 @@ const Login = () => {
                     placeholder="Username"
                     {...register('username')}
                   />
+                  <p className="text-danger">{errors.username?.message}</p>
                 </div>
 
                 <div className="form-outline mb-3">
@@ -102,6 +102,7 @@ const Login = () => {
                     placeholder="Password"
                     {...register('password')}
                   />
+                  <p className="text-danger">{errors.password?.message}</p>
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center">
@@ -109,9 +110,9 @@ const Login = () => {
                     <input className="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
                     <label className="form-check-label">Remember me</label>
                   </div>
-                  <a href="#!" className="text-body">
+                  <Link to="" className="text-body">
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
 
                 <div className="text-center text-lg-start mt-4 pt-2">

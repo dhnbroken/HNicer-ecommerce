@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ISignUpData, IUser } from 'src/store/interface';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -11,6 +10,8 @@ import { updateUserInformation } from 'src/API/user-service';
 const schema = yup
   .object({
     username: yup.string().max(20).required(),
+    firstname: yup.string().required(),
+    lastname: yup.string().required(),
     password: yup.string().min(6).max(20).required()
   })
   .required();
@@ -30,9 +31,7 @@ const UserAdd = () => {
     try {
       const res = await updateUserInformation(id, data);
       return res;
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const formSubmitHandler: SubmitHandler<IUser & ISignUpData> = (data: IUser & ISignUpData) => {
@@ -65,6 +64,7 @@ const UserAdd = () => {
                       placeholder="Enter username"
                       {...register('username')}
                     />
+                    <p className="text-danger">{errors.username?.message}</p>
                   </div>
                 </div>
                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
@@ -76,6 +76,7 @@ const UserAdd = () => {
                       placeholder="Enter password"
                       {...register('password')}
                     />
+                    <p className="text-danger">{errors.password?.message}</p>
                   </div>
                 </div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -83,13 +84,14 @@ const UserAdd = () => {
                 </div>
                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
                   <div className="form-group">
-                    <label>Full Name</label>
+                    <label>First Name</label>
                     <input
                       type="text"
                       className="form-control"
                       placeholder="Enter first name"
                       {...register('firstname')}
                     />
+                    <p className="text-danger">{errors.firstname?.message}</p>
                   </div>
                 </div>
                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
@@ -101,6 +103,7 @@ const UserAdd = () => {
                       placeholder="Enter last name"
                       {...register('lastname')}
                     />
+                    <p className="text-danger">{errors.lastname?.message}</p>
                   </div>
                 </div>
                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">

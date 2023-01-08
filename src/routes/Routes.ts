@@ -25,8 +25,11 @@ const publicRoutes = [
   { path: '/account', component: Account },
   { path: '/cart', component: Cart },
   { path: '/register', component: Register },
+  { path: '/checkout', component: Checkout }
+];
+
+const adminRoutes = [
   { path: '/sneaker/add', component: AddSneaker },
-  { path: '/checkout', component: Checkout },
   { path: '/bill', component: Bill },
   { path: '/bill/details', component: BillDetails },
   { path: '/user', component: User },
@@ -34,4 +37,4 @@ const publicRoutes = [
   { path: '/user/add', component: UserAdd }
 ];
 
-export { publicRoutes };
+export { publicRoutes, adminRoutes };

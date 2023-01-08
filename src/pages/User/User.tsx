@@ -14,10 +14,7 @@ const User = () => {
     try {
       const res = await getAllUser();
       setUsers(res);
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
   React.useEffect(() => {
     getAllUsers();

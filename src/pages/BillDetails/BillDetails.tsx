@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { updateBill } from 'src/API/bill-service';
 import { Grid } from '@mui/material';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IBillData } from 'src/store/interface';
-import { GlobalContextProvider } from 'src/Context/GlobalContext';
 
 const BillDetails: React.FC = () => {
   const location = useLocation();
@@ -16,16 +14,12 @@ const BillDetails: React.FC = () => {
   const updateBillDetails = async (bill: IBillData) => {
     try {
       await updateBill(bill._id, { ...bill, status: 'Confirmed' });
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const handleConfirm = (bill: IBillData) => {
     updateBillDetails(bill).then(() => navigate('/bill'));
   };
-
-  console.log(bill._id);
 
   return (
     <React.Fragment>

@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { faFacebook, faLinkedin, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
@@ -12,9 +11,13 @@ import { ISignUpData } from 'src/store/interface';
 import { signup } from 'src/API/auth-service';
 
 import './Register.scss';
+import { toast } from 'react-toastify';
+import { toastMsg } from 'src/store/toast';
 const schema = yup
   .object({
     username: yup.string().max(20).required(),
+    firstname: yup.string().required(),
+    lastname: yup.string().required(),
     password: yup.string().min(6).max(20).required()
   })
   .required();
@@ -38,6 +41,7 @@ const Register = () => {
       firstname: data.firstname,
       lastname: data.lastname
     }).then(() => {
+      toast.success('Success', toastMsg);
       sessionStorage.removeItem('isRegister');
       navigate('/login');
     });
@@ -89,6 +93,7 @@ const Register = () => {
                     placeholder="Username"
                     {...register('username')}
                   />
+                  <p className="text-danger">{errors.username?.message}</p>
                 </div>
                 <div className="form-outline mb-3">
                   <input
@@ -98,6 +103,7 @@ const Register = () => {
                     placeholder="First name"
                     {...register('firstname')}
                   />
+                  <p className="text-danger">{errors.firstname?.message}</p>
                 </div>
                 <div className="form-outline mb-3">
                   <input
@@ -107,6 +113,7 @@ const Register = () => {
                     placeholder="Last name"
                     {...register('lastname')}
                   />
+                  <p className="text-danger">{errors.lastname?.message}</p>
                 </div>
 
                 <div className="form-outline mb-3">
@@ -123,6 +130,7 @@ const Register = () => {
                     placeholder="Password"
                     {...register('password')}
                   />
+                  <p className="text-danger">{errors.password?.message}</p>
                 </div>
 
                 <div className="text-center text-lg-start mt-4 pt-2">

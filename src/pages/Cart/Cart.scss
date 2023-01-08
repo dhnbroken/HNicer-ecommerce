@@ -4,3 +4,15 @@
 .overflow-show {
   overflow: auto;
 }
+
+@media (min-width: 576px) {
+  .mh-390 {
+    min-height: 250px;
+  }
+}
+
+@media (min-width: 992px) {
+  .mh-390 {
+    min-height: 390px;
+  }
+}

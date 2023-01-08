@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { toastMsg } from 'src/store/toast';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { ICart, ISneaker } from 'src/store/interface';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
 import { addToCart } from 'src/API/cart-service';
@@ -27,9 +24,7 @@ const Detail = () => {
       const res = await addToCart(data);
       const newCartItems = [...cart, res];
       setCart(newCartItems);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
   const handleRemoveSneaker = async (sneaker: ISneaker) => {
     await removeShoes(sneaker._id).then(() => navigate('/sneaker'));

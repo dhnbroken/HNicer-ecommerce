@@ -1,6 +1,6 @@
 import { ISignUpData } from './../store/interface';
 import { ILoginData } from 'src/store/interface';
-import { axiosInstance, axiosInstanceWithAction } from './axios';
+import { axiosInstance } from './axios';
 
 export const login = async ({ username, password }: ILoginData) => {
   return await axiosInstance
@@ -18,5 +18,5 @@ export const login = async ({ username, password }: ILoginData) => {
 };
 
 export const signup = async ({ username, password, firstname, lastname }: ISignUpData) => {
-  return await axiosInstanceWithAction.post('/auth/register', { username, password, firstname, lastname });
+  return await axiosInstance.post('/auth/register', { username, password, firstname, lastname });
 };

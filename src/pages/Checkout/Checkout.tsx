@@ -1,50 +1,31 @@
 /* eslint-disable indent */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import {
-  TextField,
-  Box,
-  Paper,
-  Grid,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent
-} from '@mui/material';
+import { TextField, Box, Grid, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { IBillData, ICart } from 'src/store/interface';
+import { IBillData } from 'src/store/interface';
 import { createBill } from 'src/API/bill-service';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { toastMsg } from 'src/store/toast';
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary
-}));
-
 const schema = yup
   .object({
-    firstname: yup.string().required(),
-    lastname: yup.string().required(),
-    addressLine1: yup.string().required(),
+    firstname: yup.string().required('Please enter first name'),
+    lastname: yup.string().required('Please enter last name'),
+    addressLine1: yup.string().required('Please enter address line 1'),
     addressLine2: yup.string(),
-    city: yup.string().required(),
+    city: yup.string().required('Please enter city'),
     email: yup.string().email(),
-    phoneNumber: yup.string().required()
+    phoneNumber: yup.string().required('Please enter phone number')
   })
   .required();
 
 const Checkout = () => {
   const { userInfo, cart, getUserCart, removeCartItem } = React.useContext(GlobalContextProvider);
+
   const [city, setCity] = React.useState('HCM');
   const location = useLocation();
   const { cartPrice, shipFee, totalPrice } = location.state;
@@ -70,9 +51,7 @@ const Checkout = () => {
     try {
       const res = await createBill(data);
       return res;
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const formSubmitHandler: SubmitHandler<IBillData> = (data: IBillData) => {
@@ -86,7 +65,7 @@ const Checkout = () => {
     <Box className="container">
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={6}>
-          <form className="d-flex flex-column gap-4 mt-2 mb-4" onSubmit={handleSubmit(formSubmitHandler)}>
+          <form className="d-flex flex-column gap-2 mt-2 mb-4" onSubmit={handleSubmit(formSubmitHandler)}>
             <h4>Enter your name and address:</h4>
             <TextField
               label="First Name"
@@ -95,6 +74,7 @@ const Checkout = () => {
               variant="outlined"
               {...register('firstname')}
             />
+            <p className="text-danger">{errors.firstname?.message}</p>
             <TextField
               label="Last Name"
               fullWidth
@@ -102,15 +82,32 @@ const Checkout = () => {
               variant="outlined"
               {...register('lastname')}
             />
-            <TextField label="Address line 1" fullWidth variant="outlined" {...register('addressLine1')} />
-            <TextField label="Address line 2" fullWidth variant="outlined" {...register('addressLine2')} />
-            <FormControl fullWidth>
+            <p className="text-danger">{errors.lastname?.message}</p>
+
+            <TextField
+              label="Address line 1"
+              fullWidth
+              variant="outlined"
+              defaultValue={userInfo.addressLine1}
+              {...register('addressLine1')}
+            />
+            <p className="text-danger">{errors.addressLine1?.message}</p>
+
+            <TextField
+              label="Address line 2"
+              defaultValue={userInfo.addressLine2}
+              fullWidth
+              variant="outlined"
+              {...register('addressLine2')}
+            />
+            <FormControl fullWidth className="mt-2">
               <InputLabel id="demo-simple-select-label">City</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={city}
                 label="Age"
+                defaultValue={userInfo.city}
                 {...register('city')}
                 onChange={handleChange}
               >
@@ -120,8 +117,23 @@ const Checkout = () => {
               </Select>
             </FormControl>
             <h4>What is your contact information?</h4>
-            <TextField label="Email" fullWidth variant="outlined" {...register('email')} />
-            <TextField label="Phone number" fullWidth variant="outlined" {...register('phoneNumber')} />
+            <TextField
+              className="mb-2"
+              label="Email"
+              fullWidth
+              variant="outlined"
+              defaultValue={userInfo.email}
+              {...register('email')}
+            />
+            <TextField
+              className="mb-2"
+              label="Phone number"
+              fullWidth
+              variant="outlined"
+              defaultValue={userInfo.phoneNumber}
+              {...register('phoneNumber')}
+            />
+            <p className="text-danger">{errors.phoneNumber?.message}</p>
 
             <button type="submit" className="w-100 btn btn-dark rounded-pill py-3 px-4">
               Checkout
