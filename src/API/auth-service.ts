@@ -18,7 +18,5 @@ export const login = async ({ username, password }: ILoginData) => {
 };
 
 export const signup = async ({ username, password, firstname, lastname }: ISignUpData) => {
-  return await axiosInstanceWithAction
-    .post('/auth/register', { username, password, firstname, lastname })
-    .then((res) => console.log(res));
+  return await axiosInstanceWithAction.post('/auth/register', { username, password, firstname, lastname });
 };

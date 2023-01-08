@@ -1,54 +1,29 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import Loading from 'src/components/Loading/Loading';
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { GlobalContextProvider } from 'src/Context/GlobalContext';
-import './Account.scss';
-import { useNavigate } from 'react-router-dom';
-import { updateUserInformation } from 'src/API/user-service';
-import * as yup from 'yup';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { IUser } from 'src/store/interface';
-import { yupResolver } from '@hookform/resolvers/yup';
+import Loading from 'src/components/Loading/Loading';
+import { deleteUserInformation } from 'src/API/user-service';
 
-const schema = yup.object({
-  email: yup.string().email(),
-  phoneNumber: yup.string().max(10)
-});
-
-const Account = () => {
-  const { userInfo, setLoading, loading, getUserInfo } = useContext(GlobalContextProvider);
-  const serverPublic = 'http://localhost:5000/images/';
+const BillDetails: React.FC = () => {
+  const location = useLocation();
+  const { user } = location.state;
+  const { loading, userInfo } = useContext(GlobalContextProvider);
   const navigate = useNavigate();
-  useEffect(() => {
-    setLoading(false);
-    getUserInfo();
-  }, []);
+
   console.log(userInfo);
 
-  const updateUser = async (data: IUser) => {
+  const serverPublic = 'http://localhost:5000/images/';
+  const deleteUser = async () => {
     try {
-      const res = await updateUserInformation(userInfo._id, data);
-      return res;
+      await deleteUserInformation(user._id);
     } catch (err) {
       console.log(err);
     }
   };
-  const handleLogOut = () => {
-    sessionStorage.clear();
-    navigate('/login');
-    setLoading(false);
-  };
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors }
-  } = useForm<IUser>({
-    resolver: yupResolver(schema)
-  });
-
-  const formSubmitHandler: SubmitHandler<IUser> = (data: IUser) => {
-    updateUser(data);
+  const handleRemoveUser = () => {
+    deleteUser().then(() => navigate('/user'));
   };
 
   return (
@@ -62,36 +37,19 @@ const Account = () => {
                   <div className="account-settings">
                     <div className="user-profile">
                       <div className="user-avatar">
-                        <img src={userInfo.avatar ?? serverPublic + 'seo-title.jpg'} alt="Avatar" />
+                        <img src={user.avatar ?? serverPublic + 'seo-title.jpg'} alt="Avatar" />
                       </div>
-                      <h5 className="user-name">{`${userInfo.firstname} ${userInfo.lastname}`}</h5>
-                      <h6 className="user-email">{userInfo.email}</h6>
-                      {userInfo.isAdmin && <h6 className="text-danger">Role: Admin</h6>}
-                    </div>
-                    <div className="about">
-                      <h5>About</h5>
-                      <p>{!userInfo.isAdmin ? userInfo.description : "I'm Admin of this page"}</p>
+                      <h5 className="user-name">{`${user.firstname} ${user.lastname}`}</h5>
+                      <h6 className="user-email">{user.email}</h6>
+                      {user.isAdmin && <h6 className="text-danger">Role: Admin</h6>}
                     </div>
                   </div>
-                  {userInfo.isAdmin && (
-                    <React.Fragment>
-                      <button className="btn btn-outline-info mb-3 w-100" onClick={() => navigate('/user')}>
-                        Users
-                      </button>
-                      <button className="btn btn-outline-info mb-3 w-100" onClick={() => navigate('/bill')}>
-                        Bills
-                      </button>
-                    </React.Fragment>
-                  )}
-                  <button className="btn btn-outline-danger mb-3 w-100" onClick={handleLogOut}>
-                    Log Out
-                  </button>
                 </div>
               </div>
             </div>
             <div className="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
               <div className="card h-100">
-                <form className="card-body" onSubmit={handleSubmit(formSubmitHandler)}>
+                <div className="card-body">
                   <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                       <h6 className="mb-2 text-primary">Personal Details</h6>
@@ -104,7 +62,7 @@ const Account = () => {
                           className="form-control"
                           id="fullName"
                           placeholder="Enter full name"
-                          defaultValue={`${userInfo.firstname} ${userInfo.lastname}`}
+                          defaultValue={`${user.firstname} ${user.lastname}`}
                         />
                       </div>
                     </div>
@@ -115,9 +73,8 @@ const Account = () => {
                           type="email"
                           className="form-control"
                           id="eMail"
-                          defaultValue={userInfo.email}
+                          defaultValue={user.email}
                           placeholder="Enter email address"
-                          {...register('email')}
                         />
                       </div>
                     </div>
@@ -128,9 +85,8 @@ const Account = () => {
                           type="text"
                           className="form-control"
                           id="phone"
-                          defaultValue={userInfo.phoneNumber}
+                          defaultValue={user.phoneNumber}
                           placeholder="Enter phone number"
-                          {...register('phoneNumber')}
                         />
                       </div>
                     </div>
@@ -146,9 +102,8 @@ const Account = () => {
                           type="name"
                           className="form-control"
                           id="Street"
-                          defaultValue={userInfo.addressLine1}
+                          defaultValue={user.addressLine1}
                           placeholder="Address Line 1"
-                          {...register('addressLine1')}
                         />
                       </div>
                     </div>
@@ -159,9 +114,8 @@ const Account = () => {
                           type="text"
                           className="form-control"
                           id="sTate"
-                          defaultValue={userInfo.addressLine2}
+                          defaultValue={user.addressLine2}
                           placeholder="Address Line 2"
-                          {...register('addressLine2')}
                         />
                       </div>
                     </div>
@@ -172,9 +126,8 @@ const Account = () => {
                           type="name"
                           className="form-control"
                           id="ciTy"
-                          defaultValue={userInfo.city}
+                          defaultValue={user.city}
                           placeholder="Enter City"
-                          {...register('city')}
                         />
                       </div>
                     </div>
@@ -182,22 +135,16 @@ const Account = () => {
                   <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                       <div className="text-right">
-                        <button
-                          type="button"
-                          id="submit"
-                          name="submit"
-                          className="btn btn-secondary me-3"
-                          onClick={() => navigate('/home')}
-                        >
+                        <button type="button" className="btn btn-secondary me-3" onClick={() => navigate('/user')}>
                           Cancel
                         </button>
-                        <button type="submit" id="submit" name="submit" className="btn btn-primary">
-                          Update
+                        <button type="button" className="btn btn-primary" onClick={() => handleRemoveUser()}>
+                          Remove
                         </button>
                       </div>
                     </div>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
@@ -209,4 +156,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default BillDetails;

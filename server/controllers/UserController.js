@@ -62,20 +62,31 @@ export const updateUser = async (req, res) => {
 };
 
 // Delete a user
+// export const deleteUser = async (req, res) => {
+//   const id = req.params.id;
+
+//   const { currentUserId, currentUserAdmin } = req.body;
+
+//   if (currentUserId === id || currentUserAdmin) {
+//     try {
+//       await UserModel.findByIdAndDelete(id);
+//       res.status(200).json('User Deleted Successfully!');
+//     } catch (error) {
+//       res.status(500).json(error);
+//     }
+//   } else {
+//     res.status(403).json('Access Denied!');
+//   }
+// };
+
 export const deleteUser = async (req, res) => {
   const id = req.params.id;
 
-  const { currentUserId, currentUserAdmin } = req.body;
-
-  if (currentUserId === id || currentUserAdmin) {
-    try {
-      await UserModel.findByIdAndDelete(id);
-      res.status(200).json('User Deleted Successfully!');
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  } else {
-    res.status(403).json('Access Denied!');
+  try {
+    await UserModel.findByIdAndDelete(id);
+    res.status(200).json('User Deleted Successfully!');
+  } catch (error) {
+    res.status(500).json(error);
   }
 };
 

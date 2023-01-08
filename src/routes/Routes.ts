@@ -11,6 +11,9 @@ import AddSneaker from 'src/pages/AddSneaker/AddSneaker';
 import Checkout from 'src/pages/Checkout/Checkout';
 import Bill from 'src/pages/Bill/Bill';
 import BillDetails from 'src/pages/BillDetails/BillDetails';
+import User from 'src/pages/User/User';
+import UserDetails from 'src/pages/UserDetails/UserDetails';
+import UserAdd from 'src/pages/UserAdd/UserAdd';
 
 const publicRoutes = [
   { path: '/', component: Home },
@@ -25,7 +28,10 @@ const publicRoutes = [
   { path: '/sneaker/add', component: AddSneaker },
   { path: '/checkout', component: Checkout },
   { path: '/bill', component: Bill },
-  { path: '/bill/details', component: BillDetails }
+  { path: '/bill/details', component: BillDetails },
+  { path: '/user', component: User },
+  { path: '/user/details', component: UserDetails },
+  { path: '/user/add', component: UserAdd }
 ];
 
 export { publicRoutes };

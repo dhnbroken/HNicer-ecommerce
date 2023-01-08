@@ -5,7 +5,7 @@ import {
   getAllUsers,
   getUser,
   unfollowUser,
-  updateUser,
+  updateUser
 } from '../controllers/UserController.js';
 import authMiddleWare from '../middleware/AuthMiddleware.js';
 
@@ -14,7 +14,7 @@ const router = express.Router();
 router.get('/:id', getUser);
 router.get('/', getAllUsers);
 router.put('/:id', updateUser);
-router.delete('/:id', authMiddleWare, deleteUser);
+router.delete('/:id', deleteUser);
 router.put('/:id/follow', authMiddleWare, followUser);
 router.put('/:id/unfollow', authMiddleWare, unfollowUser);
 

@@ -47,6 +47,7 @@ export interface IUser {
   addressLine2?: string;
   city?: string;
   description?: string;
+  createdAt?: string;
 }
 
 export interface ICart {
