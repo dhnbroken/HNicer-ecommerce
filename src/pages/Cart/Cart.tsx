@@ -112,7 +112,9 @@ const Cart = () => {
                 <button
                   className="w-100 btn btn-dark rounded-pill py-3 px-4"
                   onClick={() => {
-                    !cart.length ? toast.warning('Cart empty', toastMsg) : navigate('/checkout');
+                    !cart.length
+                      ? toast.warning('Cart empty', toastMsg)
+                      : navigate('/checkout', { state: { cartPrice, shipFee, totalPrice } });
                   }}
                 >
                   Checkout

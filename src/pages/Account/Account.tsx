@@ -177,7 +177,13 @@ const Account = () => {
                   <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                       <div className="text-right">
-                        <button type="button" id="submit" name="submit" className="btn btn-secondary me-3">
+                        <button
+                          type="button"
+                          id="submit"
+                          name="submit"
+                          className="btn btn-secondary me-3"
+                          onClick={() => navigate('/home')}
+                        >
                           Cancel
                         </button>
                         <button type="submit" id="submit" name="submit" className="btn btn-primary">

@@ -19,7 +19,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { IBillData, ICart } from 'src/store/interface';
 import { createBill } from 'src/API/bill-service';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { toastMsg } from 'src/store/toast';
 
@@ -46,12 +46,12 @@ const schema = yup
 const Checkout = () => {
   const { userInfo, cart, getUserCart, removeCartItem } = React.useContext(GlobalContextProvider);
   const [city, setCity] = React.useState('HCM');
-  const [shipFee, setShipFee] = React.useState(0);
+  const location = useLocation();
+  const { cartPrice, shipFee, totalPrice } = location.state;
   const navigate = useNavigate();
 
   React.useEffect(() => {
     getUserCart();
-    cart.length ? setShipFee(10) : setShipFee(0);
   }, []);
 
   const {
@@ -65,17 +65,6 @@ const Checkout = () => {
   const handleChange = (event: SelectChangeEvent) => {
     setCity(event.target.value);
   };
-
-  const cartPrice = React.useMemo(
-    () =>
-      cart.reduce(
-        (previousValue, currentValue) => previousValue + currentValue.productPrice * currentValue.quantity,
-        0
-      ),
-    [cart]
-  );
-
-  const totalPrice = React.useMemo(() => cartPrice + shipFee, [cartPrice]);
 
   const createNewBill = async (data: IBillData) => {
     try {
