@@ -1,6 +1,6 @@
-import { deleteBill, updateBill } from 'src/API/bill-service';
+import { updateBill } from 'src/API/bill-service';
 import { Grid } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IBillData } from 'src/store/interface';
 
@@ -8,27 +8,25 @@ const BillDetails: React.FC = () => {
   const location = useLocation();
   const { bill } = location.state;
   const navigate = useNavigate();
+  const [status, setStatus] = useState(bill.status);
 
   const serverPublic = 'http://localhost:5000/images/';
 
   const updateBillDetails = async (bill: IBillData) => {
     try {
-      await updateBill(bill._id, { ...bill, status: 'Confirmed' });
-    } catch (err) {}
-  };
-
-  const deleteBillDetails = async () => {
-    try {
-      await deleteBill(bill._id);
+      await updateBill(bill._id, { ...bill, status });
+      setStatus('');
     } catch (err) {}
   };
 
   const handleConfirm = (bill: IBillData) => {
+    setStatus('Confirmed');
     updateBillDetails(bill).then(() => navigate('/bill'));
   };
 
-  const handleRemove = () => {
-    deleteBillDetails().then(() => navigate('/bill'));
+  const handleReject = () => {
+    setStatus('Rejected');
+    updateBillDetails(bill).then(() => navigate('/bill'));
   };
 
   return (
@@ -58,17 +56,17 @@ const BillDetails: React.FC = () => {
                 <h5 className="text-end">{`$${bill.totalPrice}`}</h5>
               </div>
               <hr />
-              {bill.status !== 'Confirmed' ? (
+              {bill.status === 'Pending' ? (
                 <React.Fragment>
                   <button className="w-100 btn btn-dark rounded-pill py-3 px-4" onClick={() => handleConfirm(bill)}>
                     Confirm
                   </button>
-                  <button className="w-100 btn btn-danger rounded-pill py-3 px-4 mt-2" onClick={() => handleRemove()}>
+                  <button className="w-100 btn btn-danger rounded-pill py-3 px-4 mt-2" onClick={() => handleReject()}>
                     Reject
                   </button>
                 </React.Fragment>
               ) : (
-                <h5 className="text-end text-danger">Confirmed</h5>
+                <h5 className="text-end text-danger">{status === 'Confirmed' ? 'Confirmed' : 'Rejected'}</h5>
               )}
             </div>
           </Grid>
